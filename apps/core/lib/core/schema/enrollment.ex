@@ -10,8 +10,8 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
 
   schema "enrollments" do
-    belongs_to :course, Course, references: :uuid
-    belongs_to :user, User, references: :uuid
+    belongs_to(:course, Course, references: :uuid)
+    belongs_to(:user, User, references: :uuid)
 
     timestamps()
   end

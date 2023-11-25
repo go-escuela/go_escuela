@@ -6,7 +6,13 @@ defmodule GoEscuelaLms.MixProject do
       apps_path: "apps",
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      dialyzer: [
+        plt_core_path: "priv/plts",
+        plt_local_path: "priv/plts",
+        plt_add_apps: [:ex_unit]
+      ]
     ]
   end
 
@@ -16,6 +22,10 @@ defmodule GoEscuelaLms.MixProject do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    []
+    [
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:excoveralls, "~> 0.18.0", only: [:dev, :test]}
+    ]
   end
 end
