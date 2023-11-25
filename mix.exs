@@ -9,8 +9,9 @@ defmodule GoEscuelaLms.MixProject do
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
       dialyzer: [
-        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
-        plt_add_deps: :transitive
+        plt_core_path: "priv/plts",
+        plt_local_path: "priv/plts",
+        plt_add_apps: [:ex_unit]
       ]
     ]
   end
