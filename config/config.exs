@@ -13,7 +13,6 @@ config :core, :ecto_repos, [
   GoEscuelaLms.Core.Repo
 ]
 
-
 config :core, GoEscuelaLms.Core.Repo,
   url: System.get_env("DATABASE_URL"),
   show_sensitive_data_on_connection_error: true,

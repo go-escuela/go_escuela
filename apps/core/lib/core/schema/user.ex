@@ -10,12 +10,12 @@ defmodule GoEscuelaLms.Core.Schema.User do
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
 
   schema "users" do
-    field :full_name, :string
-    field :email, :string
-    field :birth_date, :date
-    field :role, :string
+    field(:full_name, :string)
+    field(:email, :string)
+    field(:birth_date, :date)
+    field(:role, :string)
 
-    has_many :enrollments, Enrollment, foreign_key: :user_id
+    has_many(:enrollments, Enrollment, foreign_key: :user_id)
 
     timestamps()
   end
