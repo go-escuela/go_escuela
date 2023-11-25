@@ -5,12 +5,16 @@ defmodule GoEscuelaLms.Core.Schema.Course do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias GoEscuelaLms.Core.Schema.{Enrollment}
+
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
 
   schema "courses" do
     field :name, :string
     field :description, :string
     field :enabled, :boolean, default: false
+
+    has_many :enrollments, Enrollment, foreign_key: :course_id
 
     timestamps()
   end
