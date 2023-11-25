@@ -7,17 +7,18 @@ defmodule GoEscuelaLms.Core.Schema.Course do
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
 
-  schema "courses" do
-    field :name, :string
-    field :description, :string
-    field :enabled, :boolean, default: false
+  schema "users" do
+    field :full_name, :string
+    field :email, :string
+    field :birth_date, :date
+    field :role, :string
 
     timestamps()
   end
 
   def changeset(course, attrs) do
     course
-    |> cast(attrs, [:name, :description, :enabled])
-    |> validate_required([:name])
+    |> cast(attrs, [:full_name, :email, :birth_date, :role])
+    |> validate_required([:full_name])
   end
 end
