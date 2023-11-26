@@ -12,4 +12,5 @@ import Config
 config :core, :ecto_repos, [
   GoEscuelaLms.Core.Repo
 ]
+
 import_config "#{Mix.env()}.exs"
