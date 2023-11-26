@@ -2,8 +2,12 @@ defmodule GoEscuelaLms.Core.Schema.Course do
   @moduledoc """
   This module represents the audit schema. Audits are the read models for events.
   """
+
   use Ecto.Schema
   import Ecto.Changeset
+
+  alias __MODULE__
+  alias GoEscuelaLms.Core.Repo, as: Repo
 
   alias GoEscuelaLms.Core.Schema.{Enrollment}
 
@@ -17,6 +21,12 @@ defmodule GoEscuelaLms.Core.Schema.Course do
     has_many(:enrollments, Enrollment, foreign_key: :course_id)
 
     timestamps()
+  end
+
+  def create(attrs \\ %{}) do
+    %Course{}
+    |> Course.changeset(attrs)
+    |> Repo.insert()
   end
 
   def changeset(course, attrs) do

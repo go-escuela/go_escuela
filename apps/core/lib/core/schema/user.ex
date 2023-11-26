@@ -34,7 +34,6 @@ defmodule GoEscuelaLms.Core.Schema.User do
     |> cast(attrs, [:full_name, :email, :birth_date, :role, :password_hash])
     |> validate_required([:full_name, :password_hash])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
-    |> validate_length(:email, max: 160)
     |> put_password_hash()
   end
 

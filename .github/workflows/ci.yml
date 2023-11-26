@@ -156,6 +156,55 @@ jobs:
       - name: ==> 🔎 Static dialyze
         run: mix dialyzer
 
+  tests:
+    name: Testing and coverage
+    needs: deps
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/go_escuela_lms_test
+    strategy:
+      matrix:
+        elixir: [1.14]
+        otp: [25.0]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: erlef/setup-elixir@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Retrieve Cached Dependencies
+        uses: actions/cache@v2
+        id: mix-cache
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+      - name: create databases
+        run: mix ecto.create
+      - name: prepare database
+        run: mix ecto.migrate
+      - name: Run coverage
+        run: |
+          MIX_ENV=test mix coveralls
+    services:
+      pg:
+        image: postgres:16
+        ports: ['5432:5432']
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
   check_format:
     runs-on: ubuntu-latest
     env:
