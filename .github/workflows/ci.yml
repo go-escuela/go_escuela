@@ -193,7 +193,7 @@ jobs:
         run: mix ecto.migrate
       - name: Run coverage
         run: |
-          MIX_ENV=test mix coveralls --no-start --trace
+          MIX_ENV=test mix coveralls
     services:
       pg:
         image: postgres:16

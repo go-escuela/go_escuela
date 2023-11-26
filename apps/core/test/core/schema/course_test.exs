@@ -1,6 +1,5 @@
 defmodule Core.CourseTest do
   use ExUnit.Case
-  use Core.DataCase
 
   alias GoEscuelaLms.Core.Schema.Course
 
@@ -8,7 +7,7 @@ defmodule Core.CourseTest do
     @valid_attrs %{name: "Course I", description: "lorem ipsum", enabled: true}
     @invalid_attrs %{name: nil, description: nil}
 
-    test "create_course/1 with valid data creates a user" do
+    test "create/1 with valid data creates a course" do
       assert {:ok, %Course{} = course} = Course.create(@valid_attrs)
       assert course.name == "Course I"
       assert course.description == "lorem ipsum"
