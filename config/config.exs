@@ -10,7 +10,7 @@
 import Config
 
 config :web,
-  generators: [context_app: false]
+  generators: [context_app: :web]
 
 # Configures the endpoint
 config :web, Web.Endpoint,

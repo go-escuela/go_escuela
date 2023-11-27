@@ -7,6 +7,8 @@ defmodule Web.Router do
 
   scope "/api", Web do
     pipe_through :api
+
+    get "/", Home.PageController, :show
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
