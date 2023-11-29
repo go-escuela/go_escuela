@@ -1,4 +1,7 @@
 defmodule Web.Auth.Guardian do
+  @moduledoc """
+  module for check user credentials using Guardian dep
+  """
   use Guardian, otp_app: :web
   alias GoEscuelaLms.Core.Schema.User
 
