@@ -30,8 +30,8 @@ defmodule GoEscuelaLms.Core.Schema.User do
     |> Repo.insert()
   end
 
-  def find(id) do
-    Repo.get!(User, id)
+  def find(uuid) do
+    Repo.get!(User, uuid)
   end
 
   def get_account_by_email(email) do
