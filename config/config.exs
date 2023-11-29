@@ -27,4 +27,8 @@ config :core, :ecto_repos, [
   GoEscuelaLms.Core.Repo
 ]
 
+config :web, Web.Auth.Guardian,
+  issuer: "go_escuela_lms",
+  secret_key: "zZcHgx8qMuX9xXV2r1CN2hTI4Zc0Qre3MH08dnHVxf1NSmyxCyEbeFpP83f3urKL"
+
 import_config "#{Mix.env()}.exs"

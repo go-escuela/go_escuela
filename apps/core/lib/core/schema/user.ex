@@ -6,6 +6,7 @@ defmodule GoEscuelaLms.Core.Schema.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  import Ecto.Query, warn: false
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
   alias GoEscuelaLms.Core.Schema.{Enrollment}
@@ -29,6 +30,19 @@ defmodule GoEscuelaLms.Core.Schema.User do
     |> Repo.insert()
   end
 
+  def find(id) do
+    Repo.get!(User, id)
+  end
+
+  def get_account_by_email(email) do
+    from(u in User,
+      where: u.email == ^email,
+      select: u
+    )
+    |> first()
+    |> one_or_not_found
+  end
+
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:full_name, :email, :birth_date, :role, :password_hash])
@@ -44,4 +58,16 @@ defmodule GoEscuelaLms.Core.Schema.User do
   end
 
   defp put_password_hash(changeset), do: changeset
+
+  defp one_or_not_found(query) do
+    query
+    |> Repo.one()
+    |> case do
+      %{} = ret ->
+        {:ok, ret}
+
+      nil ->
+        {:error, :not_found}
+    end
+  end
 end
