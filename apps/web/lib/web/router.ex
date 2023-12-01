@@ -9,6 +9,7 @@ defmodule Web.Router do
     pipe_through :api
 
     get "/", Home.PageController, :show
+    post "/auth/sessions", Auth.SessionController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
