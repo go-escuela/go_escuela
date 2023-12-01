@@ -9,6 +9,7 @@ defmodule Web.Auth.SessionController do
     case Guardian.authenticate(email, password) do
       {:ok, account, token} ->
         render(conn, :create, %{account: account, token: token})
+
       error ->
         error
     end
