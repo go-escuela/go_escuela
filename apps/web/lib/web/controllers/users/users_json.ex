@@ -5,4 +5,8 @@ defmodule Web.Users.UsersJSON do
   def index(%{}) do
     %{data: %{}}
   end
+
+  def update(%{}) do
+    %{data: %{}}
+  end
 end

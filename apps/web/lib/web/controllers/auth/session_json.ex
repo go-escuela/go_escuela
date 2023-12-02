@@ -3,6 +3,6 @@ defmodule Web.Auth.SessionJSON do
   Renders a single user.
   """
   def create(%{account: account, token: token}) do
-    %{email: account.email, name: account.full_name, token: token}
+    %{email: account.email, id: account.uuid, name: account.full_name, token: token}
   end
 end

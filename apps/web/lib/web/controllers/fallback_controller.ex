@@ -16,6 +16,13 @@ defmodule Web.FallbackController do
 
   def call(conn, {:error, :unauthorized}) do
     conn
+    |> put_status(401)
+    |> put_view(json: Web.ErrorJSON)
+    |> render(:"401")
+  end
+
+  def call(conn, {:error, :forbidden}) do
+    conn
     |> put_status(403)
     |> put_view(json: Web.ErrorJSON)
     |> render(:"403")

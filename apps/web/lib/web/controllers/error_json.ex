@@ -9,8 +9,12 @@ defmodule Web.ErrorJSON do
   # By default, Phoenix returns the status message from
   # the template name. For example, "404.json" becomes
   # "Not Found".
-  def render("403.json", _assigns) do
+  def render("401.json", _assigns) do
     %{errors: %{detail: "invalid credentials"}}
+  end
+
+  def render("403.json", _assigns) do
+    %{errors: %{detail: "Forbidden resource"}}
   end
 
   def render(template, _assigns) do
