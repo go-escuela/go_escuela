@@ -8,7 +8,9 @@ defmodule Web.Auth.SessionController do
   def create(conn, %{"email" => email, "password" => password}) do
     case Guardian.authenticate(email, password) do
       {:ok, account, token} ->
-        render(conn, :create, %{account: account, token: token})
+        conn
+        |> put_session(:user_id, account.uuid)
+        |> render(:create, %{account: account, token: token})
 
       error ->
         error

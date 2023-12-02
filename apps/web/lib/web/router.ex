@@ -3,6 +3,12 @@ defmodule Web.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+  end
+
+  pipeline :auth do
+    plug Web.Auth.Pipeline
+    plug Web.Auth.SetAccount
   end
 
   scope "/api", Web do
@@ -10,6 +16,13 @@ defmodule Web.Router do
 
     get "/", Home.PageController, :show
     post "/auth/sessions", Auth.SessionController, :create
+  end
+
+  scope "/api", Web do
+    pipe_through [:api, :auth]
+
+    resources "/users", Users.UsersController
+    get "/profile", Users.ProfileController, :show
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
