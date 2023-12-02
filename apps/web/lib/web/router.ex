@@ -16,6 +16,7 @@ defmodule Web.Router do
 
     get "/", Home.PageController, :show
     post "/auth/sessions", Auth.SessionController, :create
+    delete "/auth/sessions", Auth.SessionController, :destroy
   end
 
   scope "/api", Web do

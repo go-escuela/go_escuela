@@ -27,8 +27,17 @@ config :core, :ecto_repos, [
   GoEscuelaLms.Core.Repo
 ]
 
+config :web, :ecto_repos, [
+  GoEscuelaLms.Core.Repo
+]
+
 config :web, Web.Auth.Guardian,
   issuer: "go_escuela_lms",
   secret_key: System.get_env("SECRET_AUTH_KEY")
+
+config :guardian, Guardian.DB,
+  repo: GoEscuelaLms.Core.Repo,
+  schema_name: "guardian_tokens",
+  sweep_interval: 60
 
 import_config "#{Mix.env()}.exs"
