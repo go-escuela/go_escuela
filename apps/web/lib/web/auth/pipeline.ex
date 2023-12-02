@@ -3,9 +3,10 @@ defmodule Web.Auth.Pipeline do
   module collect various plugs for authentication
   """
 
-  use Guardian.Plug.Pipeline, otp_app: :web,
-      module: Web.Auth.Guardian,
-      error_handler: Web.Auth.GuardianErrorHandler
+  use Guardian.Plug.Pipeline,
+    otp_app: :web,
+    module: Web.Auth.Guardian,
+    error_handler: Web.Auth.GuardianErrorHandler
 
   plug Guardian.Plug.VerifySession
   plug Guardian.Plug.VerifyHeader
