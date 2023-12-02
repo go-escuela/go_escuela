@@ -16,4 +16,14 @@ defmodule Web.Auth.SessionController do
         error
     end
   end
+
+  def destroy(conn, _params) do
+    account = conn.assigns[:account]
+    token = Guardian.Plug.current_token(conn)
+    Guardian.revoke(token)
+
+    conn
+    |> Plug.Conn.clear_session()
+    |> render(:destroy, %{account: account, token: nil})
+  end
 end

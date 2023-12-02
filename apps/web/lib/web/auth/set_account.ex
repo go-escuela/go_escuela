@@ -15,15 +15,14 @@ defmodule Web.Auth.SetAccount do
     else
       user_id = get_session(conn, :user_id)
 
-      if is_nil(user_id), do: raise(message: "Unauthorized", plug_status: 401)
-      account = User.find(user_id)
-
-      case !is_nil(account) do
-        true ->
-          assign(conn, :account, account)
-
+      with false <- is_nil(user_id),
+           account <- User.find(user_id),
+           false <- is_nil(account) do
+        assign(conn, :account, account)
+      else
         _ ->
           assign(conn, :account, nil)
+          Web.FallbackController.call(conn, {:error, :unauthorized}) |> halt()
       end
     end
   end
