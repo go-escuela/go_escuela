@@ -17,6 +17,21 @@ defmodule Web.Auth.SessionController do
     end
   end
 
+  def refresh_session(conn, _params) do
+    old_token = Guardian.Plug.current_token(conn)
+
+    with {:ok, claims} <- Guardian.decode_and_verify(old_token),
+         {:ok, account} <- Guardian.resource_from_claims(claims),
+         {:ok, _old, {new_token, _new_claims}} <- Guardian.refresh(old_token) do
+      conn
+      |> Plug.Conn.put_session(:account_id, account.uuid)
+      |> render(:create, %{account: account, token: new_token})
+    else
+      _ ->
+        Web.FallbackController.call(conn, {:error, :not_found}) |> halt()
+    end
+  end
+
   def destroy(conn, _params) do
     account = conn.assigns[:account]
     token = Guardian.Plug.current_token(conn)
