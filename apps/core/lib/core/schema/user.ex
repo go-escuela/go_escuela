@@ -17,7 +17,7 @@ defmodule GoEscuelaLms.Core.Schema.User do
     field(:full_name, :string)
     field(:email, :string)
     field(:birth_date, :date)
-    field(:role, :string)
+    field(:role, Ecto.Enum, values: [:organizer, :instructor, :student])
     field(:password_hash, :string)
     has_many(:enrollments, Enrollment, foreign_key: :user_id)
 
