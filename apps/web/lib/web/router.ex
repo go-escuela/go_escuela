@@ -16,7 +16,6 @@ defmodule Web.Router do
 
     get "/", Home.PageController, :show
     post "/auth/sessions", Auth.SessionController, :create
-    delete "/auth/sessions", Auth.SessionController, :destroy
   end
 
   scope "/api", Web do
@@ -24,6 +23,8 @@ defmodule Web.Router do
 
     resources "/users", Users.UsersController
     get "/profile", Users.ProfileController, :show
+    get "/auth/sessions", Auth.SessionController, :refresh_session
+    delete "/auth/sessions", Auth.SessionController, :destroy
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

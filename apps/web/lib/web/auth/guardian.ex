@@ -28,10 +28,18 @@ defmodule Web.Auth.Guardian do
   def authenticate(email, password) do
     with {:ok, account} <- User.get_account_by_email(email),
          true <- validate_password(password, account.password_hash) do
-      create_token(account)
+      create_token(account, :access)
     else
       _ ->
         {:error, :unauthorized}
+    end
+  end
+
+  def authenticate(token) do
+    with {:ok, claims} <- decode_and_verify(token),
+         {:ok, account} <- resource_from_claims(claims),
+         {:ok, _old, {new_token, _claims}} <- refresh(token) do
+      {:ok, account, new_token}
     end
   end
 
@@ -39,9 +47,18 @@ defmodule Web.Auth.Guardian do
     Bcrypt.verify_pass(password, password_hash)
   end
 
-  defp create_token(account) do
-    {:ok, token, _claims} = encode_and_sign(account)
+  defp create_token(account, type) do
+    {:ok, token, _claims} = encode_and_sign(account, %{}, token_options(type))
     {:ok, account, token}
+  end
+
+  defp token_options(type) do
+    case type do
+      :access ->
+        [token_type: "access", ttl: {2, :hour}]
+        # :reset -> [token_type: "reset", ttl: {15, :minute}]
+        # :admin -> [token_type: "admin", ttl: {90, :day}]
+    end
   end
 
   def after_encode_and_sign(resource, claims, token, _options) do
@@ -56,11 +73,11 @@ defmodule Web.Auth.Guardian do
     end
   end
 
-  # def on_refresh({old_token, old_claims}, {new_token, new_claims}, _options) do
-  #   with {:ok, _, _} <- Guardian.DB.on_refresh({old_token, old_claims}, {new_token, new_claims}) do
-  #     {:ok, {old_token, old_claims}, {new_token, new_claims}}
-  #   end
-  # end
+  def on_refresh({old_token, old_claims}, {new_token, new_claims}, _options) do
+    with {:ok, _, _} <- Guardian.DB.on_refresh({old_token, old_claims}, {new_token, new_claims}) do
+      {:ok, {old_token, old_claims}, {new_token, new_claims}}
+    end
+  end
 
   def on_revoke(claims, token, _options) do
     with {:ok, _} <- Guardian.DB.on_revoke(claims, token) do

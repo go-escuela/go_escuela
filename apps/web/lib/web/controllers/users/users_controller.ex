@@ -3,17 +3,9 @@ defmodule Web.Users.UsersController do
 
   action_fallback Web.FallbackController
 
-  plug :is_authorized_account when action in [:update]
+  import Web.Auth.AuthorizedPlug
 
-  defp is_authorized_account(conn, _opts) do
-    %{params: %{"id" => id}} = conn
-
-    if conn.assigns.account.uuid == id do
-      conn
-    else
-      Web.FallbackController.call(conn, {:error, :forbidden}) |> halt()
-    end
-  end
+  plug :is_authorized when action in [:update]
 
   def index(conn, _params) do
     render(conn, :index, %{})

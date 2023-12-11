@@ -17,6 +17,15 @@ defmodule Web.Auth.SessionController do
     end
   end
 
+  def refresh_session(conn, _params) do
+    token = Guardian.Plug.current_token(conn)
+    {:ok, account, new_token} = Guardian.authenticate(token)
+
+    conn
+    |> put_session(:user_id, account.uuid)
+    |> render(:create, %{account: account, token: new_token})
+  end
+
   def destroy(conn, _params) do
     account = conn.assigns[:account]
     token = Guardian.Plug.current_token(conn)
