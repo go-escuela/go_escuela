@@ -17,6 +17,10 @@ defmodule GoEscuelaLms.Core.Schema.InstitutionInfo do
     timestamps()
   end
 
+  def exist? do
+    InstitutionInfo |> Ecto.Query.first() |> Repo.one()
+  end
+
   def create(attrs \\ %{}) do
     %InstitutionInfo{}
     |> InstitutionInfo.changeset(attrs)
