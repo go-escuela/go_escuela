@@ -26,6 +26,9 @@ defmodule Web.Router do
       resources "/courses", Courses.CoursesController
     end
 
+    resources("/onboarding/institution_info", Onboarding.InstitutionInfoController, only: [:create, :update, :show])
+
+
     get "/profile", Users.ProfileController, :show
     get "/auth/sessions", Auth.SessionController, :refresh_session
     delete "/auth/sessions", Auth.SessionController, :destroy
