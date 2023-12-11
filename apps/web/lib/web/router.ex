@@ -6,6 +6,7 @@ defmodule Web.Router do
     plug :fetch_session
   end
 
+  # autheticate user
   pipeline :auth do
     plug Web.Auth.Pipeline
     plug Web.Auth.SetAccount
