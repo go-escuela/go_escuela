@@ -1,4 +1,4 @@
-defmodule Web.Onboarding.InstitutionInfoJSON do
+defmodule Web.Onboarding.OrganizerJSON do
   @doc """
   Renders institution info
   """
