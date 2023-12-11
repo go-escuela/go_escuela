@@ -22,7 +22,10 @@ defmodule Web.Router do
   scope "/api", Web do
     pipe_through [:api, :auth]
 
-    resources "/users", Users.UsersController
+    resources "/users", Users.UsersController do
+      resources "/courses", Courses.CoursesController
+    end
+
     get "/profile", Users.ProfileController, :show
     get "/auth/sessions", Auth.SessionController, :refresh_session
     delete "/auth/sessions", Auth.SessionController, :destroy
