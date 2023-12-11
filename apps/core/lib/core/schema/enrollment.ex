@@ -8,6 +8,7 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
   alias GoEscuelaLms.Core.Schema.{Course, User}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
+  @foreign_key_type :binary_id
 
   schema "enrollments" do
     belongs_to(:course, Course, references: :uuid)

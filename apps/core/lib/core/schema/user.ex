@@ -12,6 +12,7 @@ defmodule GoEscuelaLms.Core.Schema.User do
   alias GoEscuelaLms.Core.Schema.{Enrollment}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
+  @foreign_key_type :binary_id
 
   schema "users" do
     field(:full_name, :string)
@@ -23,6 +24,8 @@ defmodule GoEscuelaLms.Core.Schema.User do
 
     timestamps()
   end
+
+  def all, do: Repo.all(User)
 
   def create(attrs \\ %{}) do
     %User{}
