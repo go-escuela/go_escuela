@@ -17,6 +17,8 @@ defmodule Web.Router do
 
     get "/", Home.PageController, :show
     post "/auth/sessions", Auth.SessionController, :create
+
+    post "/onboarding/organizer", Onboarding.OrganizerController, :create
   end
 
   scope "/api", Web do
@@ -25,6 +27,10 @@ defmodule Web.Router do
     resources "/users", Users.UsersController do
       resources "/courses", Courses.CoursesController
     end
+
+    resources("/onboarding/institution_info", Onboarding.InstitutionInfoController,
+      only: [:create, :update, :show]
+    )
 
     get "/profile", Users.ProfileController, :show
     get "/auth/sessions", Auth.SessionController, :refresh_session
