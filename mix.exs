@@ -14,6 +14,14 @@ defmodule GoEscuelaLms.MixProject do
         plt_core_path: "priv/plts",
         plt_local_path: "priv/plts",
         plt_add_apps: [:ex_unit]
+      ],
+      releases: [
+        web: [
+          applications: [
+            web: :permanent,
+            core: :permanent
+          ]
+        ]
       ]
     ]
   end

@@ -21,7 +21,8 @@ config :web, Web.Endpoint,
     layout: false
   ],
   pubsub_server: Web.PubSub,
-  live_view: [signing_salt: "Xzp7WliM"]
+  live_view: [signing_salt: "Xzp7WliM"],
+  server: true
 
 config :core, :ecto_repos, [
   GoEscuelaLms.Core.Repo
