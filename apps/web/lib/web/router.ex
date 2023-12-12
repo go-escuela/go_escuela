@@ -25,8 +25,10 @@ defmodule Web.Router do
     pipe_through [:api, :auth]
 
     resources "/users", Users.UsersController do
-      resources "/courses", Courses.CoursesController
+      resources "/courses", Courses.CoursesController, only: [:index]
     end
+
+    resources "/courses", Courses.CoursesController, only: [:create]
 
     resources("/onboarding/institution_info", Onboarding.InstitutionInfoController,
       only: [:create, :update, :show]

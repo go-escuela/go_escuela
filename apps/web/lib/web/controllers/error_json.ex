@@ -17,6 +17,10 @@ defmodule Web.ErrorJSON do
     %{errors: %{detail: "Forbidden resource"}}
   end
 
+  def render("422.json", %{error: error}) do
+    %{errors: %{detail: error}}
+  end
+
   def render(template, _assigns) do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
