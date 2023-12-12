@@ -5,7 +5,7 @@ defmodule Web.Courses.CoursesController do
 
   import Web.Auth.AuthorizedPlug
 
-  plug :is_authorized when action in [:index, :update]
+  plug :is_admin_authorized when action in [:create, :index]
 
   def index(conn, _params) do
     render(conn, :index, %{})

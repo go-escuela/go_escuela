@@ -45,7 +45,8 @@ defmodule Web.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:guardian, "~> 2.3"},
       {:guardian_db, "~> 3.0"},
-      {:core, in_umbrella: true}
+      {:core, in_umbrella: true},
+      {:tarams, "~> 1.8"}
     ]
   end
 

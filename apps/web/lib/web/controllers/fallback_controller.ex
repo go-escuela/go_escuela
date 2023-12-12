@@ -27,4 +27,11 @@ defmodule Web.FallbackController do
     |> put_view(json: Web.ErrorJSON)
     |> render(:"403")
   end
+
+  def call(conn, {:error, error}) do
+    conn
+    |> put_status(422)
+    |> put_view(json: Web.ErrorJSON)
+    |> render(:"422", error: error)
+  end
 end
