@@ -17,22 +17,19 @@ defmodule Web.Router do
 
     get "/", Home.PageController, :show
     post "/auth/sessions", Auth.SessionController, :create
-
-    post "/onboarding/organizer", Onboarding.OrganizerController, :create
   end
 
   scope "/api", Web do
     pipe_through [:api, :auth]
+
+    post "/onboarding/organizer", Onboarding.OrganizerController, :create
+    get "/onboarding/institution_info", Onboarding.InstitutionInfoController, :show
 
     resources "/users", Users.UsersController do
       resources "/courses", Courses.CoursesController, only: [:index]
     end
 
     resources "/courses", Courses.CoursesController, only: [:create]
-
-    resources("/onboarding/institution_info", Onboarding.InstitutionInfoController,
-      only: [:create, :update, :show]
-    )
 
     get "/profile", Users.ProfileController, :show
     get "/auth/sessions", Auth.SessionController, :refresh_session

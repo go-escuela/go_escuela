@@ -5,14 +5,14 @@ defmodule Web.Onboarding.InstitutionInfoController do
 
   import Web.Auth.AuthorizedPlug
 
-  plug :is_authorized when action in [:show, :create, :update]
+  alias GoEscuelaLms.Core.Schema.InstitutionInfo
+
+  plug :is_admin_authorized when action in [:show]
 
   def show(conn, _params) do
-    render(conn, :index, %{})
-  end
+    institution_info = InstitutionInfo.get!()
 
-  def create(conn, _params) do
-    render(conn, :update, %{})
+    render(conn, :show, %{institution_info: institution_info})
   end
 
   def update(conn, _params) do

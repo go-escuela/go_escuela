@@ -12,7 +12,7 @@ end
 # create institution info
 
 case InstitutionInfo.exist? do
-  nil ->
+  false ->
     InstitutionInfo.create(%{name: "Go escuela school"})
   item ->
     item
