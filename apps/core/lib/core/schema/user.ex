@@ -61,7 +61,7 @@ defmodule GoEscuelaLms.Core.Schema.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:full_name, :email, :birth_date, :role, :password_hash])
-    |> validate_required([:full_name, :password_hash])
+    |> validate_required([:full_name, :email, :role, :password_hash])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
     |> unique_constraint(:email)
     |> put_password_hash()

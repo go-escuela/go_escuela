@@ -3,8 +3,8 @@ defmodule Web.Users.UsersJSON do
   Renders users
   """
 
-  def create(%{}) do
-    %{data: %{}}
+  def create(%{user: user}) do
+    %{data: %{email: user.email}}
   end
 
   def index(%{}) do

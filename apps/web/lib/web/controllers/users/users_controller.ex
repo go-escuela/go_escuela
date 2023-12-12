@@ -19,7 +19,7 @@ defmodule Web.Users.UsersController do
   def create(conn, params) do
     with {:ok, valid_params} <- Tarams.cast(params, @create_params),
          {:ok, user} <- create_user(valid_params) do
-      render(conn, :create, user)
+      render(conn, :create, %{user: user})
     end
   end
 
@@ -32,19 +32,13 @@ defmodule Web.Users.UsersController do
   end
 
   defp create_user(params) do
-    name = params |> get_in(~w[full_name])
+    name = params |> get_in([:full_name])
 
     User.create(%{
       full_name: name,
-      email: params |> get_in(~w[email]),
-      role: params |> get_in(~w[role]),
-      password_hash: generate_password(name)
+      email: params |> get_in([:email]),
+      role: params |> get_in([:role]),
+      password_hash: params |> get_in([:password])
     })
-  end
-
-  defp generate_password(name) do
-    year = DateTime.utc_now().year
-    name = name |> String.replace(" ", "_")
-    "Goescuela_#{name}_#{year}"
   end
 end
