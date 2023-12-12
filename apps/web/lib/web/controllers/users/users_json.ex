@@ -4,7 +4,7 @@ defmodule Web.Users.UsersJSON do
   """
 
   def create(%{user: user}) do
-    %{data: %{email: user.email}}
+    %{data: %{email: user.email, full_name: user.full_name}}
   end
 
   def index(%{}) do
