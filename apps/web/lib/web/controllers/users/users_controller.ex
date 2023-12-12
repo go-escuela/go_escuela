@@ -5,7 +5,11 @@ defmodule Web.Users.UsersController do
 
   import Web.Auth.AuthorizedPlug
 
-  plug :is_authorized when action in [:update]
+  plug :is_admin_authorized when action in [:create, :index]
+
+  def create(conn, _params) do
+    render(conn, :create, %{})
+  end
 
   def index(conn, _params) do
     render(conn, :index, %{})
