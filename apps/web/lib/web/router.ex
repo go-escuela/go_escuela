@@ -26,7 +26,9 @@ defmodule Web.Router do
     get "/onboarding/institution_info", Onboarding.InstitutionInfoController, :show
 
     resources "/users", Users.UsersController do
-      resources "/courses", Courses.CoursesController, only: [:index]
+      resources "/courses", Courses.CoursesController, only: [:index] do
+        resources "/enrollments", Enrollments.EnrollmentsController, only: [:create]
+      end
     end
 
     resources "/courses", Courses.CoursesController, only: [:create]

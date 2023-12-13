@@ -24,6 +24,10 @@ defmodule GoEscuelaLms.Core.Schema.Course do
     timestamps()
   end
 
+  def find(uuid) do
+    Repo.get(Course, uuid)
+  end
+
   def create(attrs \\ %{}) do
     %Course{}
     |> Course.changeset(attrs)

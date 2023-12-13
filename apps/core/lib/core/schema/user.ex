@@ -33,8 +33,10 @@ defmodule GoEscuelaLms.Core.Schema.User do
     |> Repo.insert()
   end
 
+  def find(uuid) when uuid in ["", nil], do: nil
+
   def find(uuid) do
-    Repo.get!(User, uuid)
+    Repo.get(User, uuid)
   end
 
   def get_account_by_email(email) do

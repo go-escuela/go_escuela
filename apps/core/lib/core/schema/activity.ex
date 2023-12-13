@@ -14,7 +14,6 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
     field(:name, :string)
     field(:enabled, :boolean, default: false)
     field(:feedback, :string)
-    field(:activity_type, :string)
     field(:activity_type, Ecto.Enum, values: [:resource, :quiz])
 
     belongs_to(:topic, Topic, references: :uuid)
