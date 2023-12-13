@@ -12,7 +12,7 @@ defmodule Web.Users.UsersController do
   @create_params %{
     full_name: [type: :string, required: true],
     email: [type: :string, required: true],
-    role: [type: :string, required: true, in: ~w(student instructor)],
+    role: [type: :string, required: true, in: User.roles()],
     password: [type: :string, required: true]
   }
 

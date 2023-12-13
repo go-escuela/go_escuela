@@ -58,6 +58,8 @@ defmodule GoEscuelaLms.Core.Schema.User do
     user.role == :instructor
   end
 
+  def roles, do: ~w(student instructor organizer)
+
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:full_name, :email, :birth_date, :role, :password_hash])

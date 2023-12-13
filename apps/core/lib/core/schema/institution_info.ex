@@ -18,7 +18,7 @@ defmodule GoEscuelaLms.Core.Schema.InstitutionInfo do
   end
 
   def exist? do
-    is_nil(InstitutionInfo.get!)
+    is_nil(InstitutionInfo.get!())
   end
 
   def get! do
