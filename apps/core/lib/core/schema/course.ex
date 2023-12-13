@@ -9,7 +9,7 @@ defmodule GoEscuelaLms.Core.Schema.Course do
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
 
-  alias GoEscuelaLms.Core.Schema.{Enrollment}
+  alias GoEscuelaLms.Core.Schema.{Enrollment, Topic}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
 
@@ -19,6 +19,7 @@ defmodule GoEscuelaLms.Core.Schema.Course do
     field(:enabled, :boolean, default: false)
 
     has_many(:enrollments, Enrollment, foreign_key: :course_id)
+    has_many(:topics, Topic, foreign_key: :course_id)
 
     timestamps()
   end
