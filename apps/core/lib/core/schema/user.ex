@@ -1,6 +1,6 @@
 defmodule GoEscuelaLms.Core.Schema.User do
   @moduledoc """
-  This module represents the audit schema. Audits are the read models for events.
+  This module represents  User schema
   """
 
   use Ecto.Schema
@@ -57,6 +57,8 @@ defmodule GoEscuelaLms.Core.Schema.User do
   def instructor?(user) do
     user.role == :instructor
   end
+
+  def roles, do: ~w(student instructor organizer)
 
   def changeset(user, attrs) do
     user

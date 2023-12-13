@@ -1,6 +1,6 @@
 defmodule GoEscuelaLms.Core.Schema.InstitutionInfo do
   @moduledoc """
-  This module represents the audit schema. Audits are the read models for events.
+  This module represents the institution info schema.
   """
 
   use Ecto.Schema
@@ -18,7 +18,7 @@ defmodule GoEscuelaLms.Core.Schema.InstitutionInfo do
   end
 
   def exist? do
-    is_nil(InstitutionInfo.get!)
+    is_nil(InstitutionInfo.get!())
   end
 
   def get! do
