@@ -1,11 +1,11 @@
 defmodule GoEscuelaLms.Core.Schema.Topic do
   @moduledoc """
-  This module represents the enrollment schema
+  This module represents the topic schema
   """
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias GoEscuelaLms.Core.Schema.Course
+  alias GoEscuelaLms.Core.Schema.{Course, Activity}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
   @foreign_key_type :binary_id
@@ -14,6 +14,7 @@ defmodule GoEscuelaLms.Core.Schema.Topic do
     field(:name, :string)
 
     belongs_to(:course, Course, references: :uuid)
+    has_many(:activities, Activity, foreign_key: :topic_id)
 
     timestamps()
   end

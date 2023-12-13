@@ -1,6 +1,6 @@
 defmodule GoEscuelaLms.Core.Schema.InstitutionInfo do
   @moduledoc """
-  This module represents the audit schema. Audits are the read models for events.
+  This module represents the institution info schema.
   """
 
   use Ecto.Schema

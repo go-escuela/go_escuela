@@ -1,6 +1,6 @@
 defmodule GoEscuelaLms.Core.Schema.Course do
   @moduledoc """
-  This module represents the audit schema. Audits are the read models for events.
+  This module represents the Course schema.
   """
 
   use Ecto.Schema
