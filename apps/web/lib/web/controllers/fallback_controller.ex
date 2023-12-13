@@ -42,6 +42,13 @@ defmodule Web.FallbackController do
     |> render(:"422", error: error)
   end
 
+  def call(conn, error) do
+    conn
+    |> put_status(500)
+    |> put_view(json: Web.ErrorJSON)
+    |> render(:"500", error: error)
+  end
+
   defp translate_error({msg, opts}) do
     # Because error messages were defined within Ecto, we must
     # call the Gettext module passing our Gettext backend. We

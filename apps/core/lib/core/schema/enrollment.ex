@@ -2,9 +2,12 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
   @moduledoc """
   This module represents the enrollment schema
   """
+
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias __MODULE__
+  alias GoEscuelaLms.Core.Repo, as: Repo
   alias GoEscuelaLms.Core.Schema.{Course, User}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
@@ -17,9 +20,25 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
     timestamps()
   end
 
-  def changeset(course, attrs) do
-    course
+  def find(uuid) do
+    Repo.get(Enrollment, uuid)
+    |> Repo.preload(:course)
+    |> Repo.preload(:user)
+  end
+
+  def create(attrs \\ %{}) do
+    %Enrollment{}
+    |> Enrollment.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def changeset(enrollment, attrs) do
+    enrollment
     |> cast(attrs, [:course_id, :user_id])
     |> validate_required([:course_id, :user_id])
+    |> unique_constraint(:user,
+      name: :enrollment_course_user_index,
+      message: "user is already enrollment"
+    )
   end
 end

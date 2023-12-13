@@ -9,8 +9,6 @@ defmodule GoEscuelaLms.Core.Repo.Migrations.CreateEnrollment do
       timestamps()
     end
 
-    create unique_index(:enrollments, [:course_id])
-    create unique_index(:enrollments, [:user_id])
-
+    create unique_index(:enrollments, [:course_id, :user_id], name: :enrollment_course_user_index)
   end
 end
