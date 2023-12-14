@@ -29,9 +29,10 @@ defmodule Web.Enrollments.EnrollmentsController do
   end
 
   defp valid_uuids(id) do
-    with {:ok, _} <- Ecto.UUID.dump(id) do
-      :ok
-    else
+    case Ecto.UUID.dump(id) do
+      {:ok, _} ->
+        :ok
+
       _ ->
         {:error, "invalid params"}
     end

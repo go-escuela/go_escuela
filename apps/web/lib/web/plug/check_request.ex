@@ -8,8 +8,6 @@ defmodule Web.Plug.CheckRequest do
   def load_course(conn, _) do
     course_id = conn.params["courses_id"]
 
-    IO.puts "COURSE_ID ==> #{course_id}"
-
     with :ok <- valid_uuids(course_id),
          course <- Course.find(course_id),
          false <- is_nil(course) do
@@ -21,11 +19,30 @@ defmodule Web.Plug.CheckRequest do
   end
 
   defp valid_uuids(id) do
-    with {:ok, _} <- Ecto.UUID.dump(id) do
-      :ok
-    else
+    case Ecto.UUID.dump(id) do
+      {:ok, _} ->
+        :ok
+
       _ ->
         {:error, "invalid params"}
+    end
+  end
+
+  def check_enrollment(%{assigns: %{account: %{role: :organizer}}} = conn, _), do: conn
+
+  def check_enrollment(conn, _) do
+    user_id = conn.assigns.account.uuid
+    course = conn.assigns.course
+
+    case is_nil(
+           course.enrollments
+           |> Enum.find(fn enrollment -> enrollment.user_id == user_id end)
+         ) do
+      false ->
+        conn
+
+      _ ->
+        Web.FallbackController.call(conn, {:error, :forbidden}) |> halt()
     end
   end
 end
