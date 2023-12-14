@@ -7,13 +7,14 @@ defmodule Web.Enrollments.EnrollmentsController do
 
   alias GoEscuelaLms.Core.Schema.{Course, Enrollment, User}
 
-  plug :is_admin_authorized when action in [:create]
+  plug :is_organizer_authorized when action in [:create]
 
   def create(conn, params) do
     user_id = params["users_id"]
     course_id = params["courses_id"]
 
-    with :ok <- valid_uuids(user_id, course_id),
+    with :ok <- valid_uuids(user_id),
+         :ok <- valid_uuids(course_id),
          :ok <- valid_resources(user_id, course_id),
          {:ok, enrollment} <- create_enrollment(user_id, course_id) do
       render(conn, :create, %{enrollment: enrollment})
@@ -27,11 +28,11 @@ defmodule Web.Enrollments.EnrollmentsController do
     })
   end
 
-  defp valid_uuids(user_id, course_id) do
-    with {:ok, _} <- Ecto.UUID.dump(user_id),
-         {:ok, _} <- Ecto.UUID.dump(course_id) do
-      :ok
-    else
+  defp valid_uuids(id) do
+    case Ecto.UUID.dump(id) do
+      {:ok, _} ->
+        :ok
+
       _ ->
         {:error, "invalid params"}
     end

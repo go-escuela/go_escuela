@@ -7,7 +7,7 @@ defmodule Web.Users.UsersController do
 
   alias GoEscuelaLms.Core.Schema.User
 
-  plug :is_admin_authorized when action in [:create]
+  plug :is_organizer_authorized when action in [:create]
 
   @create_params %{
     full_name: [type: :string, required: true],

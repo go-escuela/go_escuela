@@ -7,7 +7,7 @@ defmodule Web.Courses.CoursesController do
 
   alias GoEscuelaLms.Core.Schema.Course
 
-  plug :is_admin_authorized when action in [:create]
+  plug :is_organizer_authorized when action in [:create]
 
   @create_params %{
     name: [type: :string, required: true],

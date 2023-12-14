@@ -5,6 +5,8 @@ defmodule GoEscuelaLms.Core.Schema.Topic do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias __MODULE__
+  alias GoEscuelaLms.Core.Repo, as: Repo
   alias GoEscuelaLms.Core.Schema.{Course, Activity}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
@@ -17,6 +19,12 @@ defmodule GoEscuelaLms.Core.Schema.Topic do
     has_many(:activities, Activity, foreign_key: :topic_id)
 
     timestamps()
+  end
+
+  def create(attrs \\ %{}) do
+    %Topic{}
+    |> Topic.changeset(attrs)
+    |> Repo.insert()
   end
 
   def changeset(course, attrs) do

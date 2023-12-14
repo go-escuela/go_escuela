@@ -26,6 +26,8 @@ defmodule GoEscuelaLms.Core.Schema.Course do
 
   def find(uuid) do
     Repo.get(Course, uuid)
+    |> Repo.preload(:topics)
+    |> Repo.preload(:enrollments)
   end
 
   def create(attrs \\ %{}) do

@@ -31,7 +31,9 @@ defmodule Web.Router do
       end
     end
 
-    resources "/courses", Courses.CoursesController, only: [:create]
+    resources "/courses", Courses.CoursesController, only: [:create] do
+      resources "/topics", Topics.TopicsController, only: [:create]
+    end
 
     get "/profile", Users.ProfileController, :show
     get "/auth/sessions", Auth.SessionController, :refresh_session
