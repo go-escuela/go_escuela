@@ -3,15 +3,15 @@ defmodule Web.Users.UsersJSON do
   Renders users
   """
 
-  def create(%{user: user}) do
-    %{data: %{email: user.email, full_name: user.full_name}}
-  end
-
   def index(%{}) do
     %{data: %{}}
   end
 
-  def update(%{}) do
-    %{data: %{}}
+  def create(%{user: user}) do
+    %{data: %{email: user.email, full_name: user.full_name}}
+  end
+
+  def update(%{user: user}) do
+    %{data: %{email: user.email, full_name: user.full_name}}
   end
 end

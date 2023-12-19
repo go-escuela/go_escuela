@@ -10,7 +10,6 @@ defmodule Web.Topics.TopicsController do
 
   plug :is_permit_authorized when action in [:create]
   plug :load_course when action in [:create]
-  plug :load_course when action in [:create]
   plug :check_enrollment when action in [:create]
 
   @create_params %{
