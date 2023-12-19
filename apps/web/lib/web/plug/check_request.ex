@@ -6,7 +6,7 @@ defmodule Web.Plug.CheckRequest do
   alias GoEscuelaLms.Core.Schema.{Course, User}
 
   def load_course(conn, _) do
-    course_id = conn.params["courses_id"]
+    course_id = conn.params["id"] || conn.params["courses_id"]
 
     with :ok <- valid_uuids(course_id),
          course <- Course.find(course_id),
@@ -19,7 +19,7 @@ defmodule Web.Plug.CheckRequest do
   end
 
   def load_user(conn, _) do
-    id = conn.params["id"]
+    id = conn.params["id"] || conn.params["users_id"]
 
     with :ok <- valid_uuids(id),
          object <- User.find(id),
