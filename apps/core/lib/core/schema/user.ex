@@ -20,7 +20,7 @@ defmodule GoEscuelaLms.Core.Schema.User do
     field(:birth_date, :date)
     field(:role, Ecto.Enum, values: [:organizer, :instructor, :student])
     field(:password_hash, :string)
-    has_many(:enrollments, Enrollment, foreign_key: :user_id)
+    has_many(:enrollments, Enrollment, foreign_key: :user_id, on_delete: :delete_all)
 
     timestamps()
   end
@@ -37,6 +37,10 @@ defmodule GoEscuelaLms.Core.Schema.User do
     user
     |> changeset(attrs)
     |> Repo.update()
+  end
+
+  def delete(%User{} = user) do
+    user |> Repo.delete()
   end
 
   def find(uuid) when uuid in ["", nil], do: nil

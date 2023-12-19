@@ -9,7 +9,7 @@ defmodule Web.Users.UsersController do
   alias GoEscuelaLms.Core.Schema.User
 
   plug :is_organizer_authorized when action in [:create]
-  plug :load_user when action in [:update]
+  plug :load_user when action in [:update, :delete]
 
   @create_params %{
     full_name: [type: :string, required: true],
@@ -41,6 +41,15 @@ defmodule Web.Users.UsersController do
     with {:ok, valid_params} <- Tarams.cast(params, @update_params),
          {:ok, user_updated} <- update_user(user, valid_params) do
       render(conn, :update, %{user: user_updated})
+    end
+  end
+
+  def delete(conn, _params) do
+    user = conn.assigns.user
+
+    case user |> User.delete() do
+      {:ok, user} ->
+        render(conn, :delete, %{user: user})
     end
   end
 
