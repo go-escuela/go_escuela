@@ -17,6 +17,10 @@ defmodule Web.Users.UsersJSON do
     %{data: data(user)}
   end
 
+  def delete(%{user: user}) do
+    %{message: "user deleted", data: data(user)}
+  end
+
   defp data(%User{} = user) do
     %{
       email: user.email,
