@@ -3,6 +3,9 @@ defmodule Web.Users.ProfileJSON do
   Renders users
   """
   def show(%{data: data}) do
-    %{email: data.email}
+    %{
+      email: data.email,
+      name: data.full_name
+    }
   end
 end

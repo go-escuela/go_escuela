@@ -3,10 +3,10 @@ defmodule Web.Plug.CheckRequest do
   This module plug check request and load resource
   """
   import Plug.Conn
-  alias GoEscuelaLms.Core.Schema.{Course}
+  alias GoEscuelaLms.Core.Schema.{Course, User}
 
   def load_course(conn, _) do
-    course_id = conn.params["courses_id"]
+    course_id = conn.params["id"] || conn.params["courses_id"]
 
     with :ok <- valid_uuids(course_id),
          course <- Course.find(course_id),
@@ -18,13 +18,16 @@ defmodule Web.Plug.CheckRequest do
     end
   end
 
-  defp valid_uuids(id) do
-    case Ecto.UUID.dump(id) do
-      {:ok, _} ->
-        :ok
+  def load_user(conn, _) do
+    id = conn.params["id"] || conn.params["users_id"]
 
+    with :ok <- valid_uuids(id),
+         object <- User.find(id),
+         false <- is_nil(object) do
+      assign(conn, :user, object)
+    else
       _ ->
-        {:error, "invalid params"}
+        Web.FallbackController.call(conn, {:error, "invalid params"}) |> halt()
     end
   end
 
@@ -43,6 +46,16 @@ defmodule Web.Plug.CheckRequest do
 
       _ ->
         Web.FallbackController.call(conn, {:error, :forbidden}) |> halt()
+    end
+  end
+
+  defp valid_uuids(id) do
+    case Ecto.UUID.dump(id) do
+      {:ok, _} ->
+        :ok
+
+      _ ->
+        {:error, "invalid params"}
     end
   end
 end

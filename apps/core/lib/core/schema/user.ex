@@ -33,6 +33,12 @@ defmodule GoEscuelaLms.Core.Schema.User do
     |> Repo.insert()
   end
 
+  def update(%User{} = user, attrs) do
+    user
+    |> changeset(attrs)
+    |> Repo.update()
+  end
+
   def find(uuid) when uuid in ["", nil], do: nil
 
   def find(uuid) do

@@ -25,7 +25,7 @@ defmodule Web.Router do
     post "/onboarding/organizer", Onboarding.OrganizerController, :create
     get "/onboarding/institution_info", Onboarding.InstitutionInfoController, :show
 
-    resources "/users", Users.UsersController do
+    resources "/users", Users.UsersController, only: [:create, :update, :index] do
       resources "/courses", Courses.CoursesController, only: [:index] do
         resources "/enrollments", Enrollments.EnrollmentsController, only: [:create]
       end

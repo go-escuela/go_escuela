@@ -4,7 +4,14 @@ defmodule Web.Courses.CoursesJSON do
   """
 
   def create(%{course: course}) do
-    %{data: %{name: course.name, enabled: course.enabled, description: course.description}}
+    %{
+      data: %{
+        id: course.uuid,
+        name: course.name,
+        enabled: course.enabled,
+        description: course.description
+      }
+    }
   end
 
   def index(%{}) do
