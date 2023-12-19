@@ -32,7 +32,7 @@ defmodule Web.Users.UsersController do
   end
 
   def index(conn, _params) do
-    render(conn, :index, %{})
+    render(conn, :index, %{users: User.all()})
   end
 
   def update(conn, params) do
