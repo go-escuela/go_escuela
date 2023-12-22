@@ -3,14 +3,17 @@ defmodule Web.Courses.CoursesJSON do
   Renders users
   """
 
+  alias GoEscuelaLms.Core.Schema.Course
+
   def create(%{course: course}) do
     %{
-      data: %{
-        id: course.uuid,
-        name: course.name,
-        enabled: course.enabled,
-        description: course.description
-      }
+      data: data(course)
+    }
+  end
+
+  def update(%{course: course}) do
+    %{
+      data: data(course)
     }
   end
 
@@ -18,7 +21,12 @@ defmodule Web.Courses.CoursesJSON do
     %{data: %{}}
   end
 
-  def update(%{}) do
-    %{data: %{}}
+  defp data(%Course{} = course) do
+    %{
+      id: course.uuid,
+      name: course.name,
+      enabled: course.enabled,
+      description: course.description
+    }
   end
 end

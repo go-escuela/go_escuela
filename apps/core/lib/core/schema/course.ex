@@ -36,6 +36,12 @@ defmodule GoEscuelaLms.Core.Schema.Course do
     |> Repo.insert()
   end
 
+  def update(%Course{} = course, attrs) do
+    course
+    |> changeset(attrs)
+    |> Repo.update()
+  end
+
   def changeset(course, attrs) do
     course
     |> cast(attrs, [:name, :description, :enabled])
