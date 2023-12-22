@@ -32,7 +32,7 @@ defmodule Web.Router do
     end
 
     resources "/courses", Courses.CoursesController, only: [:create, :update, :index] do
-      resources "/topics", Topics.TopicsController, only: [:create]
+      resources "/topics", Topics.TopicsController, only: [:create, :update, :delete]
     end
 
     get "/profile", Users.ProfileController, :show

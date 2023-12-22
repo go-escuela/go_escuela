@@ -27,8 +27,23 @@ defmodule GoEscuelaLms.Core.Schema.Topic do
     |> Repo.insert()
   end
 
-  def changeset(course, attrs) do
-    course
+  def find(uuid) do
+    Repo.get(Topic, uuid)
+    |> Repo.preload(:activities)
+  end
+
+  def update(%Topic{} = topic, attrs) do
+    topic
+    |> changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete(%Topic{} = topic) do
+    topic |> Repo.delete()
+  end
+
+  def changeset(topic, attrs) do
+    topic
     |> cast(attrs, [:name, :course_id])
     |> validate_required([:name, :course_id])
   end
