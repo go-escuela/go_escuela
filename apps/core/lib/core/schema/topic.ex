@@ -38,6 +38,10 @@ defmodule GoEscuelaLms.Core.Schema.Topic do
     |> Repo.update()
   end
 
+  def delete(%Topic{} = topic) do
+    topic |> Repo.delete()
+  end
+
   def changeset(topic, attrs) do
     topic
     |> cast(attrs, [:name, :course_id])
