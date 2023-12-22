@@ -47,6 +47,7 @@ defmodule GoEscuelaLms.Core.Schema.User do
 
   def find(uuid) do
     Repo.get(User, uuid)
+    |> Repo.preload(:enrollments)
   end
 
   def get_account_by_email(email) do
@@ -55,7 +56,7 @@ defmodule GoEscuelaLms.Core.Schema.User do
       select: u
     )
     |> first()
-    |> one_or_not_found
+    |> one_or_not_found()
   end
 
   def student?(user) do

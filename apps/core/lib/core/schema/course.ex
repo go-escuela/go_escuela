@@ -5,6 +5,7 @@ defmodule GoEscuelaLms.Core.Schema.Course do
 
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
@@ -24,6 +25,19 @@ defmodule GoEscuelaLms.Core.Schema.Course do
     timestamps()
   end
 
+  def all, do: Repo.all(Course)
+
+  def all(instructor_id) do
+    query =
+      from(c in Course,
+        join: e in Enrollment,
+        on: c.uuid == e.course_id,
+        where: e.user_id == ^instructor_id
+      )
+
+    Repo.all(query)
+  end
+
   def find(uuid) do
     Repo.get(Course, uuid)
     |> Repo.preload(:topics)
@@ -34,6 +48,12 @@ defmodule GoEscuelaLms.Core.Schema.Course do
     %Course{}
     |> Course.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def update(%Course{} = course, attrs) do
+    course
+    |> changeset(attrs)
+    |> Repo.update()
   end
 
   def changeset(course, attrs) do
