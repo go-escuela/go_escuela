@@ -17,8 +17,8 @@ defmodule Web.Courses.CoursesJSON do
     }
   end
 
-  def index(%{}) do
-    %{data: %{}}
+  def index(%{courses: courses}) do
+    %{data: for(course <- courses, do: data(course))}
   end
 
   defp data(%Course{} = course) do

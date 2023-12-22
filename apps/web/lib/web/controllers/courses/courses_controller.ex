@@ -6,7 +6,7 @@ defmodule Web.Courses.CoursesController do
   import Web.Auth.AuthorizedPlug
   import Web.Plug.CheckRequest
 
-  alias GoEscuelaLms.Core.Schema.Course
+  alias GoEscuelaLms.Core.Schema.{Course, User}
 
   plug :is_organizer_authorized when action in [:create, :update]
   plug :load_course when action in [:update]
@@ -41,7 +41,16 @@ defmodule Web.Courses.CoursesController do
   end
 
   def index(conn, _params) do
-    render(conn, :index, %{})
+    data =
+      cond do
+        conn.assigns.account |> User.organizer?() ->
+          Course.all()
+
+        conn.assigns.account |> User.instructor?() ->
+          Course.all(conn.assigns.account.uuid)
+      end
+
+    render(conn, :index, %{courses: data})
   end
 
   defp create_course(params) do

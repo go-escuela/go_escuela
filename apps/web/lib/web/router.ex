@@ -31,7 +31,7 @@ defmodule Web.Router do
       end
     end
 
-    resources "/courses", Courses.CoursesController, only: [:create, :update] do
+    resources "/courses", Courses.CoursesController, only: [:create, :update, :index] do
       resources "/topics", Topics.TopicsController, only: [:create]
     end
 
