@@ -5,6 +5,8 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias __MODULE__
+  alias GoEscuelaLms.Core.Repo, as: Repo
   alias GoEscuelaLms.Core.Schema.Topic
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
@@ -20,6 +22,14 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
 
     timestamps()
   end
+
+  def create(attrs \\ %{}) do
+    %Activity{}
+    |> Activity.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def activity_types, do: Ecto.Enum.dump_values(Activity, :activity_type)
 
   def changeset(course, attrs) do
     course

@@ -5,6 +5,19 @@ defmodule Web.Plug.CheckRequest do
   import Plug.Conn
   alias GoEscuelaLms.Core.Schema.{Course, Topic, User}
 
+  def load_user(conn, _) do
+    id = conn.params["id"] || conn.params["users_id"]
+
+    with :ok <- valid_uuids(id),
+         object <- User.find(id),
+         false <- is_nil(object) do
+      assign(conn, :user, object)
+    else
+      _ ->
+        Web.FallbackController.call(conn, {:error, "invalid params"}) |> halt()
+    end
+  end
+
   def load_course(conn, _) do
     course_id = conn.params["id"] || conn.params["courses_id"]
 
@@ -19,25 +32,12 @@ defmodule Web.Plug.CheckRequest do
   end
 
   def load_topic(conn, _) do
-    id = conn.params["id"]
+    id = conn.params["id"] || conn.params["topics_id"]
 
     with :ok <- valid_uuids(id),
          object <- Topic.find(id),
          false <- is_nil(object) do
       assign(conn, :topic, object)
-    else
-      _ ->
-        Web.FallbackController.call(conn, {:error, "invalid params"}) |> halt()
-    end
-  end
-
-  def load_user(conn, _) do
-    id = conn.params["id"] || conn.params["users_id"]
-
-    with :ok <- valid_uuids(id),
-         object <- User.find(id),
-         false <- is_nil(object) do
-      assign(conn, :user, object)
     else
       _ ->
         Web.FallbackController.call(conn, {:error, "invalid params"}) |> halt()
