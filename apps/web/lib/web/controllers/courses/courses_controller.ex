@@ -9,8 +9,8 @@ defmodule Web.Courses.CoursesController do
   alias GoEscuelaLms.Core.Schema.{Course, User}
 
   plug :is_organizer_authorized when action in [:create, :update]
-  plug :load_course when action in [:update]
-  plug :check_enrollment when action in [:update]
+  plug :load_course when action in [:show, :update]
+  plug :check_enrollment when action in [:show, :update]
 
   @create_params %{
     name: [type: :string, required: true],
@@ -23,6 +23,10 @@ defmodule Web.Courses.CoursesController do
     description: :string,
     enabled: :boolean
   }
+
+  def show(conn, _params) do
+    render(conn, :show, %{data: conn.assigns.course})
+  end
 
   def create(conn, params) do
     with {:ok, valid_params} <- Tarams.cast(params, @create_params),

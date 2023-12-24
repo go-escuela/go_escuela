@@ -2,8 +2,14 @@ defmodule Web.Courses.CoursesJSON do
   @doc """
   Renders users
   """
-
   alias GoEscuelaLms.Core.Schema.Course
+
+  def show(%{course: course}) do
+    %{
+      data:
+        data(course) |> Map.merge(%{topics: for(topic <- course.topics, do: topic_data(topic))})
+    }
+  end
 
   def create(%{course: course}) do
     %{
@@ -27,6 +33,13 @@ defmodule Web.Courses.CoursesJSON do
       name: course.name,
       enabled: course.enabled,
       description: course.description
+    }
+  end
+
+  defp topic_data(topic) do
+    %{
+      id: topic.uuid,
+      name: topic.name
     }
   end
 end
