@@ -7,7 +7,7 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Topic, Activity, ActivityFile}
+  alias GoEscuelaLms.Core.Schema.{Topic, Activity}
   alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
@@ -20,8 +20,6 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
     field(:activity_type, Ecto.Enum, values: [:resource, :quiz])
 
     belongs_to(:topic, Topic, references: :uuid)
-    has_many(:activity_files, ActivityFile, foreign_key: :activity_id)
-
     timestamps()
   end
 
@@ -35,8 +33,7 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
     Repo.transaction(fn ->
       with {:ok, activity} <- Activity.create(attrs),
            {:ok, _message} <- GCPManager.upload(activity, attrs[:resource]) do
-
-      activity
+        activity
       else
         error ->
           Repo.rollback({:failed, error})

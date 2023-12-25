@@ -9,7 +9,11 @@ defmodule GoEscuelaLms.Core.GCP.Manager do
     file_name = resource.filename
     path = resource.path
 
-    meta = %GoogleApi.Storage.V1.Model.Object{name: "resources/#{object.uuid}", contentType: "text/csv"}
+    meta = %GoogleApi.Storage.V1.Model.Object{
+      name: "resources/#{object.uuid}",
+      contentType: "text/csv"
+    }
+
     file_binary = File.open!(path)
     bytes = IO.binread(file_binary, :all)
     bucket = Application.get_env(:core, :bucket)
