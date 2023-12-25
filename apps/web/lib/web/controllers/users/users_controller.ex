@@ -8,7 +8,7 @@ defmodule Web.Users.UsersController do
 
   alias GoEscuelaLms.Core.Schema.User
 
-  plug :is_organizer_authorized when action in [:create]
+  plug :organizer_authorized when action in [:create]
   plug :load_user when action in [:update, :delete]
 
   @create_params %{

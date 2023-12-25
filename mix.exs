@@ -12,6 +12,7 @@ defmodule GoEscuelaLms.MixProject do
       aliases: aliases(),
       test_coverage: [tool: ExCoveralls],
       dialyzer: [
+        ignore_warnings: ".dialyzer_ignore.exs",
         plt_core_path: "priv/plts",
         plt_local_path: "priv/plts",
         plt_add_apps: [:ex_unit]

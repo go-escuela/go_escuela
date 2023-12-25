@@ -4,6 +4,8 @@ defmodule GoEscuelaLms.Core.GCP.Manager do
   """
   require Logger
 
+  @dialyzer {:no_return, {:upload, 2}}
+
   def upload(object, resource) do
     conn = connection()
     file_name = resource.filename
@@ -16,7 +18,7 @@ defmodule GoEscuelaLms.Core.GCP.Manager do
     }
 
     file_binary = File.open!(path)
-    bytes = IO.binread(file_binary, :all)
+    bytes = IO.binread(file_binary, :eof)
     bucket = Application.get_env(:core, :bucket)
 
     upload_result =
@@ -28,17 +30,20 @@ defmodule GoEscuelaLms.Core.GCP.Manager do
         bytes
       )
 
-    case upload_result do
-      {:ok, %GoogleApi.Storage.V1.Model.Object{} = result} ->
-        Logger.info("File uploaded to GCP Storage - #{file_name}")
-        File.close(file_binary)
-        {:ok, result.etag}
+    result =
+      case upload_result do
+        {:ok, %GoogleApi.Storage.V1.Model.Object{} = result} ->
+          Logger.info("File uploaded to GCP Storage - #{file_name}")
+          File.close(file_binary)
+          {:ok, result.etag}
 
-      {:error, message} ->
-        Logger.info("File uploaded fail #{inspect(message)}")
-        File.close(file_binary)
-        {:error, message}
-    end
+        {:error, message} ->
+          Logger.info("File uploaded fail #{inspect(message)}")
+          File.close(file_binary)
+          {:error, message}
+      end
+
+    result
   end
 
   def connection() do

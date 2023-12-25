@@ -8,7 +8,7 @@ defmodule Web.Activities.ActivitiesController do
 
   alias GoEscuelaLms.Core.Schema.Activity
 
-  plug :is_permit_authorized when action in [:create]
+  plug :permit_authorized when action in [:create]
   plug :load_course when action in [:create]
   plug :check_enrollment when action in [:create]
   plug :load_topic when action in [:create]

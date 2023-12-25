@@ -8,7 +8,7 @@ defmodule Web.Courses.CoursesController do
 
   alias GoEscuelaLms.Core.Schema.{Course, User}
 
-  plug :is_organizer_authorized when action in [:create, :update]
+  plug :organizer_authorized when action in [:create, :update]
   plug :load_course when action in [:show, :update]
   plug :check_enrollment when action in [:show, :update]
 

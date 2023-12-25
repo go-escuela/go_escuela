@@ -7,7 +7,7 @@ defmodule Web.Onboarding.InstitutionInfoController do
 
   alias GoEscuelaLms.Core.Schema.InstitutionInfo
 
-  plug :is_organizer_authorized when action in [:show]
+  plug :organizer_authorized when action in [:show]
 
   def show(conn, _params) do
     institution_info = InstitutionInfo.get!()
