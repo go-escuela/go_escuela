@@ -2,6 +2,7 @@ defmodule GoEscuelaLms.Core.Schema.ActivityFile do
   @moduledoc """
   This module represents the Activity schema
   """
+  __MODULE__
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -18,8 +19,8 @@ defmodule GoEscuelaLms.Core.Schema.ActivityFile do
     timestamps()
   end
 
-  def changeset(course, attrs) do
-    course
+  def changeset(activity_file, attrs) do
+    activity_file
     |> cast(attrs, [:resource, :activity_id])
     |> validate_required([:resource, :activity_id])
   end

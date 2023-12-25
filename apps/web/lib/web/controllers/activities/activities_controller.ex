@@ -25,17 +25,27 @@ defmodule Web.Activities.ActivitiesController do
 
     with {:ok, valid_params} <- Tarams.cast(params, @create_params),
          {:ok, activity} <- create_activity(topic, valid_params) do
-      render(conn, :create, %{activity: activity})
+      render(conn, :create, activity)
     end
   end
 
   defp create_activity(topic, params) do
-    Activity.create(%{
+    activity_type = params |> get_in([:activity_type])
+
+    create_params = %{
       name: params |> get_in([:name]),
       topic_id: topic.uuid,
-      activity_type: params |> get_in([:activity_type]),
+      activity_type: activity_type,
       feedback: params |> get_in([:feedback]),
-      enabled: params |> get_in([:enabled])
-    })
+      resource: "file",
+      enabled: params |> get_in([:enabled]) || false
+    }
+
+    case activity_type do
+      "resource" ->
+        Activity.create_with_resource(create_params)
+      _ ->
+        Activity.create(create_params)
+    end
   end
 end
