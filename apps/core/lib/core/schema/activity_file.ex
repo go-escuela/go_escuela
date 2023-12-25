@@ -10,6 +10,7 @@ defmodule GoEscuelaLms.Core.Schema.ActivityFile do
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
   alias GoEscuelaLms.Core.Schema.Activity
+  # alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
   @foreign_key_type :binary_id
@@ -22,6 +23,12 @@ defmodule GoEscuelaLms.Core.Schema.ActivityFile do
     timestamps()
   end
 
+  def create(attrs \\ %{}) do
+    %ActivityFile{}
+    |> ActivityFile.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def find(uuid) do
     Repo.get(ActivityFile, uuid)
     |> Repo.preload(:activity)
@@ -30,7 +37,6 @@ defmodule GoEscuelaLms.Core.Schema.ActivityFile do
   def changeset(activity_file, attrs) do
     activity_file
     |> cast(attrs, [:resource, :activity_id])
-    # |> cast_attachments(attrs, [:resource])
     |> validate_required([:resource, :activity_id])
   end
 end

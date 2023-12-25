@@ -4,7 +4,7 @@ defmodule Web.Activities.ActivitiesJSON do
   """
   alias GoEscuelaLms.Core.Schema.Activity
 
-  def create(%{activity: activity, activity_files: _activity_files}) do
+  def create(%{activity: activity}) do
     %{
       data: data(activity)
     }
