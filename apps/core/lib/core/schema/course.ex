@@ -4,12 +4,12 @@ defmodule GoEscuelaLms.Core.Schema.Course do
   """
 
   use Ecto.Schema
+
   import Ecto.Changeset
   import Ecto.Query
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
-
   alias GoEscuelaLms.Core.Schema.{Enrollment, Topic}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}

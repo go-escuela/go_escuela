@@ -33,7 +33,9 @@ defmodule Core.MixProject do
       {:postgrex, "~> 0.17.3"},
       {:ecto, "~> 3.10"},
       {:ecto_sql, "~> 3.10"},
-      {:bcrypt_elixir, "~> 3.1"}
+      {:bcrypt_elixir, "~> 3.1"},
+      {:waffle, "~> 1.1"},
+      {:waffle_ecto, "~> 0.0.12"}
     ]
   end
 end

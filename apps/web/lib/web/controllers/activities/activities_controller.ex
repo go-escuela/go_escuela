@@ -24,28 +24,29 @@ defmodule Web.Activities.ActivitiesController do
     topic = conn.assigns.topic
 
     with {:ok, valid_params} <- Tarams.cast(params, @create_params),
-         {:ok, activity} <- create_activity(topic, valid_params) do
+         {:ok, activity} <- create_activity(topic, params, valid_params) do
       render(conn, :create, activity)
     end
   end
 
-  defp create_activity(topic, params) do
-    activity_type = params |> get_in([:activity_type])
+  defp create_activity(topic, params, valid_params) do
+    activity_type = valid_params |> get_in([:activity_type])
 
-    create_params = %{
-      name: params |> get_in([:name]),
+    create_valid_params = %{
+      name: valid_params |> get_in([:name]),
       topic_id: topic.uuid,
       activity_type: activity_type,
-      feedback: params |> get_in([:feedback]),
-      resource: "file",
-      enabled: params |> get_in([:enabled]) || false
+      feedback: valid_params |> get_in([:feedback]),
+      enabled: valid_params |> get_in([:enabled]) || false
     }
 
     case activity_type do
       "resource" ->
-        Activity.create_with_resource(create_params)
+        params = create_valid_params |> Map.merge(%{resource: params |> get_in(["resource"])})
+        Activity.create_with_resource(params)
+
       _ ->
-        Activity.create(create_params)
+        Activity.create(create_valid_params)
     end
   end
 end

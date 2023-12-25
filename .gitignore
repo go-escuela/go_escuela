@@ -26,4 +26,6 @@ erl_crash.dump
 
 /priv/plts
 
+/apps/web/priv/static/resources
+
 .elixir_ls
