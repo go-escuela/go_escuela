@@ -46,13 +46,3 @@ config :core, GoEscuelaLms.Core.Repo,
   url: System.get_env("DATABASE_URL"),
   show_sensitive_data_on_connection_error: true,
   pool_size: 2
-
-# config :waffle,
-#   storage: Waffle.Storage.Local,
-#   storage_dir_prefix: "priv/static",
-#   storage_dir: "resources"
-
-# config :waffle,
-#   storage: Waffle.Storage.Google.CloudStorage,
-#   bucket: "go_escuela_bucket",
-#   storage_dir: "uploads/waffle"
