@@ -42,7 +42,9 @@ defmodule Web.Activities.ActivitiesController do
 
     case activity_type do
       "resource" ->
+        file = params |> get_in(["resource"])
         params = create_valid_params |> Map.merge(%{resource: params |> get_in(["resource"])})
+        GoEscuelaLms.Core.GCP.Manager.upload(file)
         Activity.create_with_resource(params)
 
       _ ->

@@ -36,7 +36,9 @@ defmodule Core.MixProject do
       {:bcrypt_elixir, "~> 3.1"},
       {:waffle, "~> 1.1"},
       {:waffle_ecto, "~> 0.0.12"},
-      {:waffle_gcs, "~> 0.2.0"}
+      {:google_api_storage, "~> 0.34.0"},
+      {:goth, "~> 1.4"}
+      # {:waffle_gcs, "~> 0.2.0"}
     ]
   end
 end
