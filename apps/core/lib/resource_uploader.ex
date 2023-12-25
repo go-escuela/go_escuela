@@ -1,4 +1,8 @@
 defmodule Core.ResourceUploader do
+  @moduledoc """
+  This module waffle definition
+  """
+
   use Waffle.Definition
   use Waffle.Ecto.Definition
 
