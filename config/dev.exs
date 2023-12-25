@@ -51,3 +51,8 @@ config :waffle,
   storage: Waffle.Storage.Local,
   storage_dir_prefix: "priv/static",
   storage_dir: "resources"
+
+config :waffle,
+  storage: Waffle.Storage.Google,
+  bucket: "go_escuela_bucket",
+  storage_dir: "uploads/waffle"

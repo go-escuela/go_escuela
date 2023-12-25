@@ -7,8 +7,13 @@ defmodule Core.Application do
 
   @impl true
   def start(_type, _args) do
+    credentials = System.get_env("GOOGLE_API_CREDENTIALS") |> Base.decode64!() |> Jason.decode!()
+
+    source = {:service_account, credentials, []}
+
     children = [
-      GoEscuelaLms.Core.Repo
+      GoEscuelaLms.Core.Repo,
+      {Goth, name: Core.Goth, source: source}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
