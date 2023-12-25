@@ -8,10 +8,11 @@ defmodule GoEscuelaLms.Core.GCP.Manager do
     conn = connection()
     file_name = resource.filename
     path = resource.path
+    content_type = resource.content_type
 
     meta = %GoogleApi.Storage.V1.Model.Object{
       name: "resources/#{object.uuid}",
-      contentType: "text/csv"
+      contentType: content_type
     }
 
     file_binary = File.open!(path)
