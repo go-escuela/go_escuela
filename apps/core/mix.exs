@@ -34,8 +34,8 @@ defmodule Core.MixProject do
       {:ecto, "~> 3.10"},
       {:ecto_sql, "~> 3.10"},
       {:bcrypt_elixir, "~> 3.1"},
-      {:waffle, "~> 1.1"},
-      {:waffle_ecto, "~> 0.0.12"}
+      {:google_api_storage, "~> 0.34.0"},
+      {:goth, "~> 1.4"}
     ]
   end
 end

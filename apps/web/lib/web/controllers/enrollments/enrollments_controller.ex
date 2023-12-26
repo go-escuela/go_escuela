@@ -8,7 +8,7 @@ defmodule Web.Enrollments.EnrollmentsController do
 
   alias GoEscuelaLms.Core.Schema.{Enrollment}
 
-  plug :is_organizer_authorized when action in [:create]
+  plug :organizer_authorized when action in [:create]
   plug :load_user when action in [:create]
   plug :load_course when action in [:create]
 

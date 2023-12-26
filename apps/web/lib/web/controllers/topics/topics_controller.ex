@@ -8,7 +8,7 @@ defmodule Web.Topics.TopicsController do
 
   alias GoEscuelaLms.Core.Schema.Topic
 
-  plug :is_permit_authorized when action in [:create]
+  plug :permit_authorized when action in [:create]
   plug :load_course when action in [:create]
   plug :check_enrollment when action in [:create]
   plug :load_topic when action in [:update, :delete]

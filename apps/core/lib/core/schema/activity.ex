@@ -7,8 +7,8 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Topic, ActivityFile}
-  alias Ecto.Multi
+  alias GoEscuelaLms.Core.Schema.{Topic, Activity}
+  alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
   @foreign_key_type :binary_id
@@ -20,8 +20,6 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
     field(:activity_type, Ecto.Enum, values: [:resource, :quiz])
 
     belongs_to(:topic, Topic, references: :uuid)
-    has_many(:activity_files, ActivityFile, foreign_key: :activity_id)
-
     timestamps()
   end
 
@@ -32,21 +30,15 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
   end
 
   def create_with_resource(attrs \\ %{}) do
-    activity = %Activity{} |> Activity.changeset(attrs)
-
-    Multi.new()
-    |> Multi.insert(:activity, activity)
-    |> Multi.merge(fn %{activity: act} ->
-      Multi.new()
-      |> Multi.insert(
-        :activity_files,
-        ActivityFile.changeset(%ActivityFile{}, %{
-          resource: attrs[:resource],
-          activity_id: act.uuid
-        })
-      )
+    Repo.transaction(fn ->
+      with {:ok, activity} <- Activity.create(attrs),
+           {:ok, _message} <- GCPManager.upload(activity, attrs[:resource]) do
+        activity
+      else
+        error ->
+          Repo.rollback({:failed, error})
+      end
     end)
-    |> Repo.transaction()
   end
 
   def activity_types, do: Ecto.Enum.dump_values(Activity, :activity_type)

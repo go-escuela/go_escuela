@@ -41,9 +41,7 @@ config :guardian, Guardian.DB,
   schema_name: "guardian_tokens",
   sweep_interval: 60
 
-# config :waffle,
-#   storage: Waffle.Storage.Local,
-#   storage_dir_prefix: "priv/static",
-#   storage_dir: "resources"
+config :core,
+  bucket: System.get_env("GOOGLE_BUCKET", "bucket")
 
 import_config "#{Mix.env()}.exs"
