@@ -38,6 +38,7 @@ defmodule Web.Router do
     end
 
     get "/profile", Users.ProfileController, :show
+    put "/profile", Users.ProfileController, :update
     get "/auth/sessions", Auth.SessionController, :refresh_session
     delete "/auth/sessions", Auth.SessionController, :destroy
   end

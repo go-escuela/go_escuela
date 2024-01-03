@@ -25,6 +25,9 @@ defmodule GoEscuelaLms.Core.Schema.User do
     timestamps()
   end
 
+  @cast_fields ~w(full_name email birth_date role password_hash)a
+  @required_fields ~w(full_name email role password_hash)a
+
   def all, do: Repo.all(User)
 
   def create(attrs \\ %{}) do
@@ -35,7 +38,7 @@ defmodule GoEscuelaLms.Core.Schema.User do
 
   def update(%User{} = user, attrs) do
     user
-    |> changeset(attrs)
+    |> update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -75,8 +78,16 @@ defmodule GoEscuelaLms.Core.Schema.User do
 
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:full_name, :email, :birth_date, :role, :password_hash])
-    |> validate_required([:full_name, :email, :role, :password_hash])
+    |> cast(attrs, @cast_fields)
+    |> validate_required(@required_fields)
+    |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
+    |> unique_constraint(:email)
+    |> put_password_hash()
+  end
+
+  def update_changeset(user, attrs) do
+    user
+    |> cast(attrs, @cast_fields)
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
     |> unique_constraint(:email)
     |> put_password_hash()

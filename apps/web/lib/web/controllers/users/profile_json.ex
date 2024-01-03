@@ -1,11 +1,16 @@
 defmodule Web.Users.ProfileJSON do
   @doc """
-  Renders users
+  Renders profile
   """
   def show(%{data: data}) do
-    %{
-      email: data.email,
-      name: data.full_name
-    }
+    data(data)
+  end
+
+  def update(%{data: data}) do
+    data(data)
+  end
+
+  defp data(user) do
+    %{name: user.full_name, email: user.email}
   end
 end
