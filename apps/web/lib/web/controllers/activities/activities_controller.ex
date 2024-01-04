@@ -20,12 +20,32 @@ defmodule Web.Activities.ActivitiesController do
     enabled: :boolean
   }
 
+  @quiz_params %{
+    start_date: [type: :string, required: true],
+    attempts: :integer,
+    grade_pass: :float
+  }
+
   def create(conn, params) do
     topic = conn.assigns.topic
 
     with {:ok, valid_params} <- Tarams.cast(params, @create_params),
+        {:ok, valid_params} <- activity_type_valid_params(params, valid_params),
          {:ok, activity} <- create_activity(topic, params, valid_params) do
       render(conn, :create, %{activity: activity})
+    end
+  end
+
+  defp activity_type_valid_params(params, %{activity_type: activity_type} = valid_params) do
+    case activity_type do
+      "quiz" ->
+        Tarams.cast(params, @quiz_params)
+      _ ->
+        if is_nil(params |> get_in(["resource"])) do
+          {:error, "file is empty"}
+        else
+          {:ok, valid_params}
+        end
     end
   end
 
