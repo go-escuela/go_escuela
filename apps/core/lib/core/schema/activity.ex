@@ -7,7 +7,7 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Topic, Activity}
+  alias GoEscuelaLms.Core.Schema.{Topic, Quiz}
   alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
@@ -20,6 +20,7 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
     field(:activity_type, Ecto.Enum, values: [:resource, :quiz])
 
     belongs_to(:topic, Topic, references: :uuid)
+    has_many(:quizzes, Quiz, foreign_key: :activity_id)
     timestamps()
   end
 
