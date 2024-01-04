@@ -22,7 +22,8 @@ defmodule Web.Activities.ActivitiesController do
 
   @quiz_params %{
     start_date: [type: :string, required: true],
-    attempts: :integer,
+    end_date: [type: :string, required: true],
+    max_attempts: :integer,
     grade_pass: :float
   }
 
@@ -30,7 +31,7 @@ defmodule Web.Activities.ActivitiesController do
     topic = conn.assigns.topic
 
     with {:ok, valid_params} <- Tarams.cast(params, @create_params),
-        {:ok, valid_params} <- activity_type_valid_params(params, valid_params),
+         {:ok, valid_params} <- activity_type_valid_params(params, valid_params),
          {:ok, activity} <- create_activity(topic, params, valid_params) do
       render(conn, :create, %{activity: activity})
     end
@@ -39,7 +40,9 @@ defmodule Web.Activities.ActivitiesController do
   defp activity_type_valid_params(params, %{activity_type: activity_type} = valid_params) do
     case activity_type do
       "quiz" ->
-        Tarams.cast(params, @quiz_params)
+        create_params = @create_params |> Map.merge(@quiz_params)
+        Tarams.cast(params, create_params)
+
       _ ->
         if is_nil(params |> get_in(["resource"])) do
           {:error, "file is empty"}
@@ -68,7 +71,16 @@ defmodule Web.Activities.ActivitiesController do
           Activity.create_with_resource(params)
 
         _ ->
-          Activity.create(create_valid_params)
+          params =
+            create_valid_params
+            |> Map.merge(%{
+              start_date: valid_params |> get_in([:start_date]),
+              end_date: valid_params |> get_in([:end_date]),
+              max_attempts: valid_params |> get_in([:max_attempts]) || 1,
+              grade_pass: valid_params |> get_in([:grade_pass]) || 100
+            })
+
+          Activity.create_with_quiz(params)
       end
     end)
     |> Task.await()

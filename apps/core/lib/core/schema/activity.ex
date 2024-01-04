@@ -33,7 +33,19 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
   def create_with_resource(attrs \\ %{}) do
     Repo.transaction(fn ->
       with {:ok, activity} <- Activity.create(attrs),
-           {:ok, _message} <- GCPManager.upload(activity, attrs[:resource]) do
+           {:ok, _response} <- GCPManager.upload(activity, attrs[:resource]) do
+        activity
+      else
+        error ->
+          Repo.rollback({:failed, error})
+      end
+    end)
+  end
+
+  def create_with_quiz(attrs \\ %{}) do
+    Repo.transaction(fn ->
+      with {:ok, activity} <- Activity.create(attrs),
+           {:ok, _response} <- Quiz.create(activity, attrs) do
         activity
       else
         error ->
