@@ -1,6 +1,6 @@
 defmodule Web.Courses.CoursesJSON do
   @doc """
-  Renders users
+  Renders courses
   """
   alias GoEscuelaLms.Core.Schema.Course
 

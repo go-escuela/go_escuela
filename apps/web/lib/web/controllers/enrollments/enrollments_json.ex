@@ -1,9 +1,15 @@
 defmodule Web.Enrollments.EnrollmentsJSON do
   @doc """
-  Renders users
+  Renders enrollments
   """
 
   def create(%{enrollment: enrollment}) do
-    %{data: %{enrollment_id: enrollment.uuid, inserted_at: enrollment.inserted_at}}
+    %{
+      data: %{
+        id: enrollment.id,
+        enrollment_id: enrollment.uuid,
+        inserted_at: enrollment.inserted_at
+      }
+    }
   end
 end

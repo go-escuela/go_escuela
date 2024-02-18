@@ -23,6 +23,7 @@ defmodule Web.Users.UsersJSON do
 
   defp data(%User{} = user) do
     %{
+      id: user.uuid,
       email: user.email,
       full_name: user.full_name
     }

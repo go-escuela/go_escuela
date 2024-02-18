@@ -1,6 +1,6 @@
 defmodule Web.Topics.TopicsJSON do
   @doc """
-  Renders topic
+  Renders topics
   """
 
   alias GoEscuelaLms.Core.Schema.Topic
@@ -18,6 +18,9 @@ defmodule Web.Topics.TopicsJSON do
   end
 
   defp data(%Topic{} = topic) do
-    %{name: topic.name}
+    %{
+      id: topic.uuid,
+      name: topic.name
+    }
   end
 end
