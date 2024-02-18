@@ -14,7 +14,7 @@ defmodule Web.Plug.CheckRequest do
       assign(conn, :user, object)
     else
       _ ->
-        Web.FallbackController.call(conn, {:error, "invalid params"}) |> halt()
+        Web.FallbackController.call(conn, {:error, "user is invalid"}) |> halt()
     end
   end
 
@@ -27,7 +27,7 @@ defmodule Web.Plug.CheckRequest do
       assign(conn, :course, course)
     else
       _ ->
-        Web.FallbackController.call(conn, {:error, "invalid params"}) |> halt()
+        Web.FallbackController.call(conn, {:error, "course is invalid"}) |> halt()
     end
   end
 
@@ -40,7 +40,7 @@ defmodule Web.Plug.CheckRequest do
       assign(conn, :topic, object)
     else
       _ ->
-        Web.FallbackController.call(conn, {:error, "invalid params"}) |> halt()
+        Web.FallbackController.call(conn, {:error, "topic is invalid"}) |> halt()
     end
   end
 
