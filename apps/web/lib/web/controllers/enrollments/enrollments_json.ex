@@ -15,6 +15,10 @@ defmodule Web.Enrollments.EnrollmentsJSON do
     }
   end
 
+  def delete(%{enrollment: enrollment}) do
+    %{message: "enrollment deleted", data: data(enrollment)}
+  end
+
   defp data(%Enrollment{} = enrollment) do
     %{
       id: enrollment.uuid,

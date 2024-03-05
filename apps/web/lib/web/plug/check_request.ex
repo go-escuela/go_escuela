@@ -3,7 +3,8 @@ defmodule Web.Plug.CheckRequest do
   This module plug check request and load resource
   """
   import Plug.Conn
-  alias GoEscuelaLms.Core.Schema.{Course, Topic, User}
+  alias GoEscuelaLms.Core.Schema.Enrollment
+  alias GoEscuelaLms.Core.Schema.{Course, Enrollment, Topic, User}
 
   def load_user(conn, _) do
     id = conn.params["id"] || conn.params["users_id"]
@@ -41,6 +42,19 @@ defmodule Web.Plug.CheckRequest do
     else
       _ ->
         Web.FallbackController.call(conn, {:error, "topic is invalid"}) |> halt()
+    end
+  end
+
+  def load_enrollment(conn, _) do
+    id = conn.params["id"]
+
+    with :ok <- valid_uuids(id),
+         object <- Enrollment.find(id),
+         false <- is_nil(object) do
+      assign(conn, :enrollment, object)
+    else
+      _ ->
+        Web.FallbackController.call(conn, {:error, "enrollment is invalid"}) |> halt()
     end
   end
 

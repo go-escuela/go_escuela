@@ -39,6 +39,8 @@ defmodule Web.Router do
       resources "/enrollments", Enrollments.EnrollmentsController, only: [:index]
     end
 
+    resources "/enrollments", Enrollments.EnrollmentsController, only: [:delete]
+
     get "/profile", Users.ProfileController, :show
     put "/profile", Users.ProfileController, :update
     get "/auth/sessions", Auth.SessionController, :refresh_session

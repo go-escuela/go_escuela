@@ -11,6 +11,7 @@ defmodule Web.Enrollments.EnrollmentsController do
   plug :permit_authorized when action in [:index, :create]
   plug :load_user when action in [:create]
   plug :load_course when action in [:create, :index]
+  plug :load_enrollment when action in [:delete]
 
   def index(conn, _params) do
     course = conn.assigns.course
@@ -24,6 +25,15 @@ defmodule Web.Enrollments.EnrollmentsController do
     case create_enrollment(user, course) do
       {:ok, enrollment} ->
         render(conn, :create, %{enrollment: enrollment})
+    end
+  end
+
+  def delete(conn, _params) do
+    enrollment = conn.assigns.enrollment
+
+    case enrollment |> Enrollment.delete() do
+      {:ok, enrollment} ->
+        render(conn, :delete, %{enrollment: enrollment})
     end
   end
 

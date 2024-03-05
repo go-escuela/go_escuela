@@ -35,6 +35,10 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
     |> Repo.insert()
   end
 
+  def delete(%Enrollment{} = enrollment) do
+    enrollment |> Repo.delete()
+  end
+
   def changeset(enrollment, attrs) do
     enrollment
     |> cast(attrs, [:course_id, :user_id])
