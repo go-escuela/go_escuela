@@ -5,6 +5,7 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
 
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
@@ -19,6 +20,8 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
 
     timestamps()
   end
+
+  def all, do: Repo.all(Enrollment)
 
   def find(uuid) do
     Repo.get(Enrollment, uuid)

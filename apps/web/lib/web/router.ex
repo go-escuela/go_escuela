@@ -35,6 +35,8 @@ defmodule Web.Router do
       resources "/topics", Topics.TopicsController, only: [:create, :update, :delete] do
         resources "/activities", Activities.ActivitiesController, only: [:create]
       end
+
+      resources "/enrollments", Enrollments.EnrollmentsController, only: [:index]
     end
 
     get "/profile", Users.ProfileController, :show

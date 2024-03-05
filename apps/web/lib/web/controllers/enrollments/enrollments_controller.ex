@@ -8,9 +8,14 @@ defmodule Web.Enrollments.EnrollmentsController do
 
   alias GoEscuelaLms.Core.Schema.{Enrollment}
 
-  plug :organizer_authorized when action in [:create]
+  plug :permit_authorized when action in [:index, :create]
   plug :load_user when action in [:create]
-  plug :load_course when action in [:create]
+  plug :load_course when action in [:create, :index]
+
+  def index(conn, _params) do
+    course = conn.assigns.course
+    render(conn, :index, %{enrollments: course.enrollments})
+  end
 
   def create(conn, _params) do
     course = conn.assigns.course
