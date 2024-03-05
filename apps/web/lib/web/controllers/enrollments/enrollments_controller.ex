@@ -13,18 +13,23 @@ defmodule Web.Enrollments.EnrollmentsController do
   plug :load_course when action in [:create, :index]
   plug :load_enrollment when action in [:delete]
 
+  @create_params %{
+    course_id: [type: :string, required: true],
+    user_id: [type: :string, required: true]
+  }
+
   def index(conn, _params) do
     course = conn.assigns.course
     render(conn, :index, %{enrollments: course.enrollments})
   end
 
-  def create(conn, _params) do
+  def create(conn, params) do
     course = conn.assigns.course
     user = conn.assigns.user
 
-    case create_enrollment(user, course) do
-      {:ok, enrollment} ->
-        render(conn, :create, %{enrollment: enrollment})
+    with {:ok, _valid_params} <- Tarams.cast(params, @create_params),
+         {:ok, enrollment} <- create_enrollment(user, course) do
+      render(conn, :create, %{enrollment: enrollment})
     end
   end
 

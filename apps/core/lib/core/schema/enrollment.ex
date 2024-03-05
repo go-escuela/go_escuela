@@ -5,7 +5,6 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
 
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo

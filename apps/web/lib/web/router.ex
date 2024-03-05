@@ -26,9 +26,7 @@ defmodule Web.Router do
     get "/onboarding/institution_info", Onboarding.InstitutionInfoController, :show
 
     resources "/users", Users.UsersController, only: [:create, :update, :index, :delete] do
-      resources "/courses", Courses.CoursesController, only: [:index] do
-        resources "/enrollments", Enrollments.EnrollmentsController, only: [:create]
-      end
+      resources "/courses", Courses.CoursesController, only: [:index]
     end
 
     resources "/courses", Courses.CoursesController, only: [:create, :update, :index, :show] do
@@ -39,7 +37,7 @@ defmodule Web.Router do
       resources "/enrollments", Enrollments.EnrollmentsController, only: [:index]
     end
 
-    resources "/enrollments", Enrollments.EnrollmentsController, only: [:delete]
+    resources "/enrollments", Enrollments.EnrollmentsController, only: [:create, :delete]
 
     get "/profile", Users.ProfileController, :show
     put "/profile", Users.ProfileController, :update
