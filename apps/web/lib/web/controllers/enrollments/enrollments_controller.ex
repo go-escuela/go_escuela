@@ -8,17 +8,37 @@ defmodule Web.Enrollments.EnrollmentsController do
 
   alias GoEscuelaLms.Core.Schema.{Enrollment}
 
-  plug :organizer_authorized when action in [:create]
+  plug :permit_authorized when action in [:index, :create]
   plug :load_user when action in [:create]
-  plug :load_course when action in [:create]
+  plug :load_course when action in [:create, :index]
+  plug :load_enrollment when action in [:delete]
 
-  def create(conn, _params) do
+  @create_params %{
+    course_id: [type: :string, required: true],
+    user_id: [type: :string, required: true]
+  }
+
+  def index(conn, _params) do
+    course = conn.assigns.course
+    render(conn, :index, %{enrollments: course.enrollments})
+  end
+
+  def create(conn, params) do
     course = conn.assigns.course
     user = conn.assigns.user
 
-    case create_enrollment(user, course) do
+    with {:ok, _valid_params} <- Tarams.cast(params, @create_params),
+         {:ok, enrollment} <- create_enrollment(user, course) do
+      render(conn, :create, %{enrollment: enrollment})
+    end
+  end
+
+  def delete(conn, _params) do
+    enrollment = conn.assigns.enrollment
+
+    case enrollment |> Enrollment.delete() do
       {:ok, enrollment} ->
-        render(conn, :create, %{enrollment: enrollment})
+        render(conn, :delete, %{enrollment: enrollment})
     end
   end
 

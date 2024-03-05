@@ -20,6 +20,8 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
     timestamps()
   end
 
+  def all, do: Repo.all(Enrollment)
+
   def find(uuid) do
     Repo.get(Enrollment, uuid)
     |> Repo.preload(:course)
@@ -30,6 +32,10 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
     %Enrollment{}
     |> Enrollment.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def delete(%Enrollment{} = enrollment) do
+    enrollment |> Repo.delete()
   end
 
   def changeset(enrollment, attrs) do
