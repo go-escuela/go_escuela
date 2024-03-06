@@ -41,6 +41,7 @@ defmodule Web.Activities.ActivitiesController do
     case activity_type do
       "quiz" ->
         create_params = @create_params |> Map.merge(@quiz_params)
+
         Tarams.cast(params, create_params)
 
       _ ->
@@ -80,7 +81,13 @@ defmodule Web.Activities.ActivitiesController do
               grade_pass: valid_params |> get_in([:grade_pass]) || 100
             })
 
-          Activity.create_with_quiz(params)
+          case Activity.create_with_quiz(params) do
+            {:error, {:failed, error}} ->
+              error
+
+            response ->
+              response
+          end
       end
     end)
     |> Task.await()

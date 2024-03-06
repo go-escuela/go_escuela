@@ -24,6 +24,8 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
     timestamps()
   end
 
+  def all, do: Repo.all(Activity)
+
   def create(attrs \\ %{}) do
     %Activity{}
     |> Activity.changeset(attrs)
