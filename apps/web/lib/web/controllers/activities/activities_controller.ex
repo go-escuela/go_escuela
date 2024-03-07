@@ -21,8 +21,8 @@ defmodule Web.Activities.ActivitiesController do
   }
 
   @quiz_params %{
-    start_date: [type: :string, required: true],
-    end_date: [type: :string, required: true],
+    start_date: [type: :naive_datetime, required: true],
+    end_date: [type: :naive_datetime, required: true],
     max_attempts: :integer,
     grade_pass: :float
   }
@@ -81,13 +81,7 @@ defmodule Web.Activities.ActivitiesController do
               grade_pass: valid_params |> get_in([:grade_pass]) || 100
             })
 
-          case Activity.create_with_quiz(params) do
-            {:error, {:failed, error}} ->
-              error
-
-            response ->
-              response
-          end
+          Activity.create_with_quiz(params)
       end
     end)
     |> Task.await()
