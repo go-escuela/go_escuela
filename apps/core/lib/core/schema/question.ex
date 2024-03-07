@@ -23,7 +23,7 @@ defmodule GoEscuelaLms.Core.Schema.Question do
     )
 
     belongs_to(:quiz, Quiz, references: :uuid)
-    has_many(:answers, Answer, foreign_key: :question_id)
+    has_many(:answers, Answer, foreign_key: :question_id, on_delete: :delete_all)
     timestamps()
   end
 

@@ -5,9 +5,18 @@ defmodule Web.Activities.ActivitiesJSON do
   alias GoEscuelaLms.Core.Schema.Activity
 
   def create(%{activity: activity}) do
-    %{
-      data: data(activity)
-    }
+    case activity |> Activity.resource?() do
+      true ->
+        %{
+          data: data(activity)
+        }
+
+      # quizz activity
+      _ ->
+        %{
+          data: data(activity)
+        }
+    end
   end
 
   defp data(%Activity{} = activity) do

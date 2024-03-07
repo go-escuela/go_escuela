@@ -24,7 +24,7 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
     timestamps()
   end
 
-  def all, do: Repo.all(Activity)
+  def all, do: Repo.all(Activity) |> Repo.preload(quizzes: [questions: :answers])
 
   def find(uuid) do
     Repo.get(Activity, uuid)
@@ -64,6 +64,10 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
   end
 
   def activity_types, do: Ecto.Enum.dump_values(Activity, :activity_type)
+
+  def resource?(activity) do
+    activity.activity_type == :resource
+  end
 
   def changeset(course, attrs) do
     course
