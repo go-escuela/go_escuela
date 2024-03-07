@@ -1,6 +1,6 @@
 defmodule GoEscuelaLms.Core.Schema.Activity do
   @moduledoc """
-  This module represents the Activity schema
+  This module represents the activities schema
   """
   use Ecto.Schema
   import Ecto.Changeset
