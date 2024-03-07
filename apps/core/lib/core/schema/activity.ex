@@ -7,7 +7,7 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Topic, Quiz}
+  alias GoEscuelaLms.Core.Schema.{Topic, Quiz, Question}
   alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
@@ -45,12 +45,16 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
   end
 
   def create_with_quiz(attrs \\ %{}) do
+    IO.puts("QUIZZ attrs ==> #{inspect(attrs)}")
+
     Repo.transaction(fn ->
       with {:ok, activity} <- Activity.create(attrs),
-           {:ok, _response} <- Quiz.create(activity, attrs) do
+           {:ok, quiz} <- Quiz.create(activity, attrs),
+           {:ok, :ok} <- Question.bulk_create(quiz, attrs.questions) do
         activity
       else
         error ->
+          IO.puts("#{inspect(error)}")
           Repo.rollback({:failed, error})
       end
     end)

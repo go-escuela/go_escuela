@@ -29,9 +29,16 @@ defmodule GoEscuelaLms.Core.Schema.Answer do
     |> Repo.insert()
   end
 
+  def bulk_create(question, records) do
+    Enum.each(records, fn record ->
+      Answer.changeset(%Answer{question_id: question.uuid}, record)
+      |> Repo.insert!()
+    end)
+  end
+
   def changeset(course, attrs) do
     course
-    |> cast(attrs, [:name, :enabled, :feedback, :activity_type, :topic_id])
-    |> validate_required([:name, :activity_type, :topic_id])
+    |> cast(attrs, [:description, :feedback, :correct_answer, :question_id])
+    |> validate_required([:description, :correct_answer, :question_id])
   end
 end

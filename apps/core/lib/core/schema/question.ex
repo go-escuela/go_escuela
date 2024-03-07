@@ -7,7 +7,7 @@ defmodule GoEscuelaLms.Core.Schema.Question do
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Quiz}
+  alias GoEscuelaLms.Core.Schema.{Quiz, Answer}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
   @foreign_key_type :binary_id
@@ -28,6 +28,20 @@ defmodule GoEscuelaLms.Core.Schema.Question do
 
   def all, do: Repo.all(Question)
 
+  def bulk_create(quiz, records) do
+    Repo.transaction(fn ->
+      Enum.each(records, fn record ->
+        question =
+          Question.changeset(%Question{quiz_id: quiz.uuid}, record)
+          |> Repo.insert!()
+
+        Answer.bulk_create(question, record.answers)
+      end)
+
+      :ok
+    end)
+  end
+
   def create(attrs \\ %{}) do
     %Question{}
     |> Question.changeset(attrs)
@@ -38,7 +52,7 @@ defmodule GoEscuelaLms.Core.Schema.Question do
 
   def changeset(course, attrs) do
     course
-    |> cast(attrs, [:name, :enabled, :feedback, :activity_type, :topic_id])
-    |> validate_required([:name, :activity_type, :topic_id])
+    |> cast(attrs, [:title, :description, :mark, :feedback, :question_type, :quiz_id])
+    |> validate_required([:title, :mark, :question_type, :quiz_id])
   end
 end

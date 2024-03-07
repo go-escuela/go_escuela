@@ -24,7 +24,29 @@ defmodule Web.Activities.ActivitiesController do
     start_date: [type: :naive_datetime, required: true],
     end_date: [type: :naive_datetime, required: true],
     max_attempts: :integer,
-    grade_pass: :float
+    grade_pass: :float,
+    questions: [
+      type:
+        {:array,
+         %{
+           title: [type: :string, required: true],
+           description: [type: :string],
+           feedback: [type: :string],
+           mark: [type: :float, required: true],
+           question_type: [type: :string, required: true],
+           answers: [
+             type:
+               {:array,
+                %{
+                  description: [type: :string, required: true],
+                  feedback: [type: :string],
+                  correct_answer: [type: :boolean, required: true]
+                }},
+             required: true
+           ]
+         }},
+      required: true
+    ]
   }
 
   def create(conn, params) do
@@ -44,6 +66,7 @@ defmodule Web.Activities.ActivitiesController do
 
         Tarams.cast(params, create_params)
 
+      # resource  activity type -> file upload required
       _ ->
         if is_nil(params |> get_in(["resource"])) do
           {:error, "file is empty"}
@@ -78,7 +101,8 @@ defmodule Web.Activities.ActivitiesController do
               start_date: valid_params |> get_in([:start_date]),
               end_date: valid_params |> get_in([:end_date]),
               max_attempts: valid_params |> get_in([:max_attempts]) || 1,
-              grade_pass: valid_params |> get_in([:grade_pass]) || 100
+              grade_pass: valid_params |> get_in([:grade_pass]) || 100,
+              questions: valid_params |> get_in([:questions])
             })
 
           Activity.create_with_quiz(params)
