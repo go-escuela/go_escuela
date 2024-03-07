@@ -8,7 +8,7 @@ defmodule GoEscuelaLms.Core.Schema.Quiz do
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Activity}
+  alias GoEscuelaLms.Core.Schema.{Activity, Question}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
   @foreign_key_type :binary_id
@@ -20,6 +20,7 @@ defmodule GoEscuelaLms.Core.Schema.Quiz do
     field(:grade_pass, :float)
 
     belongs_to(:activity, Activity, references: :uuid)
+    has_many(:questions, Question, foreign_key: :quiz_id, on_delete: :delete_all)
     timestamps()
   end
 

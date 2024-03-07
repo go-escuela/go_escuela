@@ -20,11 +20,16 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
     field(:activity_type, Ecto.Enum, values: [:resource, :quiz])
 
     belongs_to(:topic, Topic, references: :uuid)
-    has_many(:quizzes, Quiz, foreign_key: :activity_id)
+    has_many(:quizzes, Quiz, foreign_key: :activity_id, on_delete: :delete_all)
     timestamps()
   end
 
   def all, do: Repo.all(Activity)
+
+  def find(uuid) do
+    Repo.get(Activity, uuid)
+    |> Repo.preload(quizzes: [questions: :answers])
+  end
 
   def create(attrs \\ %{}) do
     %Activity{}
@@ -45,8 +50,6 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
   end
 
   def create_with_quiz(attrs \\ %{}) do
-    IO.puts("QUIZZ attrs ==> #{inspect(attrs)}")
-
     Repo.transaction(fn ->
       with {:ok, activity} <- Activity.create(attrs),
            {:ok, quiz} <- Quiz.create(activity, attrs),
