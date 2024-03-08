@@ -7,7 +7,7 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
 
   alias __MODULE__
   alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Topic, Quiz, Question}
+  alias GoEscuelaLms.Core.Schema.{Topic, Question}
   alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
@@ -17,18 +17,22 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
     field(:name, :string)
     field(:enabled, :boolean, default: false)
     field(:feedback, :string)
+    field(:start_date, :utc_datetime)
+    field(:end_date, :utc_datetime)
+    field(:max_attempts, :integer)
+    field(:grade_pass, :float)
     field(:activity_type, Ecto.Enum, values: [:resource, :quiz])
 
     belongs_to(:topic, Topic, references: :uuid)
-    has_many(:quizzes, Quiz, foreign_key: :activity_id, on_delete: :delete_all)
+    has_many(:questions, Question, foreign_key: :activity_id, on_delete: :delete_all)
     timestamps()
   end
 
-  def all, do: Repo.all(Activity) |> Repo.preload(quizzes: [questions: :answers])
+  def all, do: Repo.all(Activity) |> Repo.preload(questions: :answers)
 
   def find(uuid) do
     Repo.get(Activity, uuid)
-    |> Repo.preload(quizzes: [questions: :answers])
+    |> Repo.preload(questions: :answers)
   end
 
   def create(attrs \\ %{}) do
@@ -52,9 +56,8 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
   def create_with_quiz(attrs \\ %{}) do
     Repo.transaction(fn ->
       with {:ok, activity} <- Activity.create(attrs),
-           {:ok, quiz} <- Quiz.create(activity, attrs),
-           {:ok, :ok} <- Question.bulk_create(quiz, attrs.questions) do
-        activity
+           {:ok, :ok} <- Question.bulk_create(activity, attrs.questions) do
+        activity |> Repo.preload(questions: :answers)
       else
         error ->
           IO.puts("#{inspect(error)}")

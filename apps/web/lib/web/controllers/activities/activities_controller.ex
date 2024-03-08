@@ -17,14 +17,14 @@ defmodule Web.Activities.ActivitiesController do
     name: [type: :string, required: true],
     activity_type: [type: :string, required: true, in: Activity.activity_types()],
     feedback: :string,
-    enabled: :boolean
+    enabled: :boolean,
+    start_date: [type: :naive_datetime],
+    end_date: [type: :naive_datetime],
+    max_attempts: :integer,
+    grade_pass: :float
   }
 
   @quiz_params %{
-    start_date: [type: :naive_datetime, required: true],
-    end_date: [type: :naive_datetime, required: true],
-    max_attempts: :integer,
-    grade_pass: :float,
     questions: [
       type:
         {:array,
@@ -63,7 +63,6 @@ defmodule Web.Activities.ActivitiesController do
     case activity_type do
       "quiz" ->
         create_params = @create_params |> Map.merge(@quiz_params)
-
         Tarams.cast(params, create_params)
 
       # resource  activity type -> file upload required
@@ -85,7 +84,11 @@ defmodule Web.Activities.ActivitiesController do
         topic_id: topic.uuid,
         activity_type: activity_type,
         feedback: valid_params |> get_in([:feedback]),
-        enabled: valid_params |> get_in([:enabled]) || false
+        enabled: valid_params |> get_in([:enabled]) || false,
+        start_date: valid_params |> get_in([:start_date]),
+        end_date: valid_params |> get_in([:end_date]),
+        max_attempts: valid_params |> get_in([:max_attempts]) || 1,
+        grade_pass: valid_params |> get_in([:grade_pass]) || 100
       }
 
       case activity_type do
@@ -96,14 +99,7 @@ defmodule Web.Activities.ActivitiesController do
 
         _ ->
           params =
-            create_valid_params
-            |> Map.merge(%{
-              start_date: valid_params |> get_in([:start_date]),
-              end_date: valid_params |> get_in([:end_date]),
-              max_attempts: valid_params |> get_in([:max_attempts]) || 1,
-              grade_pass: valid_params |> get_in([:grade_pass]) || 100,
-              questions: valid_params |> get_in([:questions])
-            })
+            create_valid_params |> Map.merge(%{questions: valid_params |> get_in([:questions])})
 
           Activity.create_with_quiz(params)
       end
