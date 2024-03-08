@@ -17,14 +17,36 @@ defmodule Web.Activities.ActivitiesController do
     name: [type: :string, required: true],
     activity_type: [type: :string, required: true, in: Activity.activity_types()],
     feedback: :string,
-    enabled: :boolean
+    enabled: :boolean,
+    start_date: [type: :naive_datetime],
+    end_date: [type: :naive_datetime],
+    max_attempts: :integer,
+    grade_pass: :float
   }
 
   @quiz_params %{
-    start_date: [type: :string, required: true],
-    end_date: [type: :string, required: true],
-    max_attempts: :integer,
-    grade_pass: :float
+    questions: [
+      type:
+        {:array,
+         %{
+           title: [type: :string, required: true],
+           description: [type: :string],
+           feedback: [type: :string],
+           mark: [type: :float, required: true],
+           question_type: [type: :string, required: true],
+           answers: [
+             type:
+               {:array,
+                %{
+                  description: [type: :string, required: true],
+                  feedback: [type: :string],
+                  correct_answer: [type: :boolean, required: true]
+                }},
+             required: true
+           ]
+         }},
+      required: true
+    ]
   }
 
   def create(conn, params) do
@@ -41,9 +63,9 @@ defmodule Web.Activities.ActivitiesController do
     case activity_type do
       "quiz" ->
         create_params = @create_params |> Map.merge(@quiz_params)
-
         Tarams.cast(params, create_params)
 
+      # resource  activity type -> file upload required
       _ ->
         if is_nil(params |> get_in(["resource"])) do
           {:error, "file is empty"}
@@ -62,7 +84,11 @@ defmodule Web.Activities.ActivitiesController do
         topic_id: topic.uuid,
         activity_type: activity_type,
         feedback: valid_params |> get_in([:feedback]),
-        enabled: valid_params |> get_in([:enabled]) || false
+        enabled: valid_params |> get_in([:enabled]) || false,
+        start_date: valid_params |> get_in([:start_date]),
+        end_date: valid_params |> get_in([:end_date]),
+        max_attempts: valid_params |> get_in([:max_attempts]) || 1,
+        grade_pass: valid_params |> get_in([:grade_pass]) || 100
       }
 
       case activity_type do
@@ -73,21 +99,9 @@ defmodule Web.Activities.ActivitiesController do
 
         _ ->
           params =
-            create_valid_params
-            |> Map.merge(%{
-              start_date: valid_params |> get_in([:start_date]),
-              end_date: valid_params |> get_in([:end_date]),
-              max_attempts: valid_params |> get_in([:max_attempts]) || 1,
-              grade_pass: valid_params |> get_in([:grade_pass]) || 100
-            })
+            create_valid_params |> Map.merge(%{questions: valid_params |> get_in([:questions])})
 
-          case Activity.create_with_quiz(params) do
-            {:error, {:failed, error}} ->
-              error
-
-            response ->
-              response
-          end
+          Activity.create_with_quiz(params)
       end
     end)
     |> Task.await()
