@@ -2,7 +2,7 @@ defmodule GoEscuelaLms.Core.Repo.Migrations.CreateActivities do
   use Ecto.Migration
 
   def change do
-    create table("activities", primary_key: false) do
+    create table(:activities, primary_key: false) do
       add :uuid, :uuid, primary_key: true
       add :name, :string, null: false
       add :enabled, :boolean, default: false

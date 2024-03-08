@@ -2,7 +2,7 @@ defmodule GoEscuelaLms.Core.Repo.Migrations.CreateQuestions do
   use Ecto.Migration
 
   def change do
-    create table("questions", primary_key: false) do
+    create table(:questions, primary_key: false) do
       add :uuid, :uuid, primary_key: true
       add :title, :string, null: false
       add :description, :text
