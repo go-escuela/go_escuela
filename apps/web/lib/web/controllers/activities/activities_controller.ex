@@ -54,6 +54,7 @@ defmodule Web.Activities.ActivitiesController do
 
     with {:ok, valid_params} <- Tarams.cast(params, @create_params),
          {:ok, valid_params} <- activity_type_valid_params(params, valid_params),
+         {:ok, _} <- correct_answer_validation(params),
          {:ok, activity} <- create_activity(topic, params, valid_params) do
       render(conn, :create, %{activity: activity})
     end
@@ -72,6 +73,42 @@ defmodule Web.Activities.ActivitiesController do
         else
           {:ok, valid_params}
         end
+    end
+  end
+
+  def correct_answer_validation(params) do
+    result =
+      params
+      |> get_in(["questions"])
+      |> Enum.map(fn question ->
+        answers = question |> get_in(["answers"])
+        title = question |> get_in(["title"])
+
+        correct_answer =
+          Enum.any?(answers, fn answer -> answer |> get_in(["correct_answer"]) == true end)
+
+        case correct_answer do
+          false ->
+            {:error, "#{title} must have least 1 correct answers"}
+
+          _ ->
+            {:ok, title}
+        end
+      end)
+
+    {errors, valid} =
+      Enum.reduce(result, {[], []}, fn
+        {:error, error_msg}, {errors_acc, valid_acc} ->
+          {[error_msg | errors_acc], valid_acc}
+
+        {:ok, ok_msg}, {errors_acc, valid_acc} ->
+          {errors_acc, [ok_msg | valid_acc]}
+      end)
+
+    if Enum.empty?(errors) do
+      {:ok, valid}
+    else
+      {:error, errors}
     end
   end
 
