@@ -42,7 +42,7 @@ defmodule Web.Activities.ActivitiesController do
                   feedback: [type: :string],
                   correct_answer: [type: :boolean, required: true]
                 }},
-             required: true
+             required: {__MODULE__, :require_answers?}
            ]
          }},
       required: true
@@ -81,11 +81,12 @@ defmodule Web.Activities.ActivitiesController do
       params
       |> get_in(["questions"])
       |> Enum.map(fn question ->
-        answers = question |> get_in(["answers"])
+        answers = question |> get_in(["answers"]) || []
         title = question |> get_in(["title"])
 
         correct_answer =
-          Enum.any?(answers, fn answer -> answer |> get_in(["correct_answer"]) == true end)
+          Enum.empty?([]) ||
+            Enum.any?(answers, fn answer -> answer |> get_in(["correct_answer"]) == true end)
 
         case correct_answer do
           false ->
@@ -143,4 +144,6 @@ defmodule Web.Activities.ActivitiesController do
     end)
     |> Task.await()
   end
+
+  def require_answers?(_value, data), do: data.question_type != "open_answer"
 end

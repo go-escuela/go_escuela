@@ -19,7 +19,7 @@ defmodule GoEscuelaLms.Core.Schema.Question do
     field(:feedback, :string)
 
     field(:question_type, Ecto.Enum,
-      values: [:true_false, :multiple_choice, :matching, :completion, :open_answer]
+      values: [:true_false, :multiple_choice, :open_answer, :matching, :completion]
     )
 
     belongs_to(:activity, Activity, references: :uuid)
