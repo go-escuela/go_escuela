@@ -29,6 +29,8 @@ defmodule GoEscuelaLms.Core.Schema.Answer do
     |> Repo.insert()
   end
 
+  def bulk_create(_question, records) when is_nil(records), do: :ok
+
   def bulk_create(question, records) do
     Enum.each(records, fn record ->
       Answer.changeset(%Answer{question_id: question.uuid}, record)
