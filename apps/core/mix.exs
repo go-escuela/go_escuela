@@ -35,7 +35,8 @@ defmodule Core.MixProject do
       {:ecto_sql, "~> 3.10"},
       {:bcrypt_elixir, "~> 3.1"},
       {:google_api_storage, "~> 0.34.0"},
-      {:goth, "~> 1.4"}
+      {:goth, "~> 1.4"},
+      {:solid, "~> 0.15.2"}
     ]
   end
 end
