@@ -29,6 +29,11 @@ defmodule GoEscuelaLms.Core.Schema.Question do
 
   def all, do: Repo.all(Question)
 
+  def find(uuid) do
+    Repo.get(Question, uuid)
+    |> Repo.preload(:answers)
+  end
+
   def bulk_create(activity, records) do
     Repo.transaction(fn ->
       Enum.each(records, fn record ->

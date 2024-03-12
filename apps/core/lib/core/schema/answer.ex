@@ -14,7 +14,8 @@ defmodule GoEscuelaLms.Core.Schema.Answer do
 
   schema "answers" do
     field(:description, :string)
-    field(:match_answer, :string) # is using when the question is matching
+    # is using when the question is matching
+    field(:match_answer, :string)
     field(:feedback, :string)
     field(:correct_answer, :boolean)
 

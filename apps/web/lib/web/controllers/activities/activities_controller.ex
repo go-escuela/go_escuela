@@ -55,7 +55,7 @@ defmodule Web.Activities.ActivitiesController do
 
     with {:ok, valid_params} <- Tarams.cast(params, @create_params),
          {:ok, valid_params} <- activity_type_valid_params(params, valid_params),
-         {:ok, _} <- correct_answer_validation(params),
+         {:ok, _} <- answers_cast_params(params),
          {:ok, activity} <- create_activity(topic, params, valid_params) do
       render(conn, :create, %{activity: activity})
     end
@@ -77,7 +77,7 @@ defmodule Web.Activities.ActivitiesController do
     end
   end
 
-  def correct_answer_validation(params) do
+  def answers_cast_params(params) do
     result =
       params
       |> get_in(["questions"])
@@ -93,6 +93,8 @@ defmodule Web.Activities.ActivitiesController do
           _ ->
             {:ok, title}
         end
+
+        description_matching_cast(question)
       end)
 
     {errors, valid} =
@@ -117,6 +119,21 @@ defmodule Web.Activities.ActivitiesController do
   end
 
   defp correct_answer_validation(_, _), do: true
+
+  defp description_matching_cast(
+         %{"description" => description, "question_type" => question_type} = _question
+       )
+       when question_type in ~w(matching) do
+    case Solid.parse(description) do
+      {:ok, template} ->
+        {:ok, template}
+
+      {:error, error} ->
+        {:error, error.message}
+    end
+  end
+
+  defp description_matching_cast(_), do: {:ok, ""}
 
   defp create_activity(topic, params, valid_params) do
     Task.async(fn ->

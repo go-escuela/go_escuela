@@ -33,7 +33,7 @@ defmodule Web.Activities.ActivitiesJSON do
 
   defp question_data(question) do
     %{
-      uuid: question.uuid,
+      id: question.uuid,
       title: question.title,
       mark: question.mark,
       feedback: question.mark,
@@ -44,7 +44,7 @@ defmodule Web.Activities.ActivitiesJSON do
 
   defp answer_data(answer) do
     %{
-      uuid: answer.uuid,
+      id: answer.uuid,
       description: answer.description,
       feedback: answer.feedback,
       correct_answer: answer.correct_answer
