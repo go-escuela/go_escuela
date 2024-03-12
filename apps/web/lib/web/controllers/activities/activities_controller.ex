@@ -6,7 +6,7 @@ defmodule Web.Activities.ActivitiesController do
   import Web.Auth.AuthorizedPlug
   import Web.Plug.CheckRequest
 
-  alias GoEscuelaLms.Core.Schema.Activity
+  alias GoEscuelaLms.Core.Schema.{Activity, Question}
 
   plug :permit_authorized when action in [:create]
   plug :load_course when action in [:create]
@@ -30,16 +30,17 @@ defmodule Web.Activities.ActivitiesController do
         {:array,
          %{
            title: [type: :string, required: true],
-           description: [type: :string],
+           description: [type: :string, required: {__MODULE__, :require_matching?}],
            feedback: [type: :string],
            mark: [type: :float, required: true],
-           question_type: [type: :string, required: true],
+           question_type: [type: :string, required: true, in: Question.question_types()],
            answers: [
              type:
                {:array,
                 %{
                   description: [type: :string, required: true],
                   feedback: [type: :string],
+                  match_answer: [type: :string],
                   correct_answer: [type: :boolean, required: true]
                 }},
              required: {__MODULE__, :require_answers?}
@@ -83,12 +84,9 @@ defmodule Web.Activities.ActivitiesController do
       |> Enum.map(fn question ->
         answers = question |> get_in(["answers"]) || []
         title = question |> get_in(["title"])
+        question_type = question |> get_in(["question_type"])
 
-        correct_answer =
-          Enum.empty?([]) ||
-            Enum.any?(answers, fn answer -> answer |> get_in(["correct_answer"]) == true end)
-
-        case correct_answer do
+        case correct_answer_validation(answers, question_type) do
           false ->
             {:error, "#{title} must have least 1 correct answers"}
 
@@ -112,6 +110,13 @@ defmodule Web.Activities.ActivitiesController do
       {:error, errors}
     end
   end
+
+  defp correct_answer_validation(answers, question_type)
+       when question_type in ~w(true_false multiple_choice) do
+    Enum.any?(answers, fn answer -> answer |> get_in(["correct_answer"]) == true end)
+  end
+
+  defp correct_answer_validation(_, _), do: true
 
   defp create_activity(topic, params, valid_params) do
     Task.async(fn ->
@@ -146,4 +151,6 @@ defmodule Web.Activities.ActivitiesController do
   end
 
   def require_answers?(_value, data), do: data.question_type != "open_answer"
+
+  def require_matching?(_value, data), do: data.question_type in ~w[matching]
 end
