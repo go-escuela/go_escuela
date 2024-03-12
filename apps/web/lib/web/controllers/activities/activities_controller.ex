@@ -121,12 +121,15 @@ defmodule Web.Activities.ActivitiesController do
   defp correct_answer_validation(_, _), do: true
 
   defp description_matching_cast(
-         %{"description" => description, "question_type" => question_type} = _question
+         %{
+           "description" => description,
+           "question_type" => question_type
+         } = question
        )
        when question_type in ~w(matching) do
     case Solid.parse(description) do
-      {:ok, template} ->
-        {:ok, template}
+      {:ok, _} ->
+        valid_answers_variables_cast(question)
 
       {:error, error} ->
         {:error, error.message}
@@ -134,6 +137,32 @@ defmodule Web.Activities.ActivitiesController do
   end
 
   defp description_matching_cast(_), do: {:ok, ""}
+
+  def valid_answers_variables_cast(
+        %{"title" => title, "answers" => answers, "description" => text} = _question
+      ) do
+    matches = Regex.scan(~r/{{(\w+)}}/, text)
+    variable_names = Enum.map(matches, fn [_, match] -> match end)
+
+    with true <- length(answers) == length(variable_names),
+         :ok <- valid_answers_exist_variables(variable_names, answers) do
+      {:ok, title}
+    else
+      _ ->
+        {:error, "#{title} does not have the correct answers"}
+    end
+  end
+
+  defp valid_answers_exist_variables(variable_names, answers) do
+    description_variables = variable_names |> Enum.sort()
+    answers_variables = answers |> Enum.map(fn x -> x["description"] end) |> Enum.sort()
+
+    if description_variables == answers_variables do
+      :ok
+    else
+      :error
+    end
+  end
 
   defp create_activity(topic, params, valid_params) do
     Task.async(fn ->
