@@ -14,6 +14,7 @@ defmodule GoEscuelaLms.Core.Schema.Answer do
 
   schema "answers" do
     field(:description, :string)
+    field(:match_answer, :string) # is using when the question is matching
     field(:feedback, :string)
     field(:correct_answer, :boolean)
 
@@ -40,7 +41,7 @@ defmodule GoEscuelaLms.Core.Schema.Answer do
 
   def changeset(course, attrs) do
     course
-    |> cast(attrs, [:description, :feedback, :correct_answer, :question_id])
+    |> cast(attrs, [:description, :match_answer, :feedback, :correct_answer, :question_id])
     |> validate_required([:description, :correct_answer, :question_id])
   end
 end
