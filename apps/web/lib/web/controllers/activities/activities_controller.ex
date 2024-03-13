@@ -30,7 +30,7 @@ defmodule Web.Activities.ActivitiesController do
         {:array,
          %{
            title: [type: :string, required: true],
-           description: [type: :string, required: {__MODULE__, :require_matching?}],
+           description: [type: :string, required: {__MODULE__, :require_question_description?}],
            feedback: [type: :string],
            mark: [type: :float, required: true],
            question_type: [type: :string, required: true, in: Question.question_types()],
@@ -41,6 +41,14 @@ defmodule Web.Activities.ActivitiesController do
                   description: [type: :string, required: true],
                   feedback: [type: :string],
                   match_answer: [type: :string],
+                  options_answers: [
+                    type:
+                      {:array,
+                       %{
+                         statement: [type: :string, required: true],
+                         correct_answer: [type: :boolean, required: true]
+                       }}
+                  ],
                   correct_answer: [type: :boolean, required: true]
                 }},
              required: {__MODULE__, :require_answers?}
@@ -198,5 +206,5 @@ defmodule Web.Activities.ActivitiesController do
 
   def require_answers?(_value, data), do: data.question_type != "open_answer"
 
-  def require_matching?(_value, data), do: data.question_type in ~w[matching]
+  def require_question_description?(_value, data), do: data.question_type in ~w[missing]
 end

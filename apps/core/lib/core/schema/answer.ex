@@ -18,12 +18,15 @@ defmodule GoEscuelaLms.Core.Schema.Answer do
     field(:match_answer, :string)
     field(:feedback, :string)
     field(:correct_answer, :boolean)
+    field(:options_answers, {:array, :map})
 
     belongs_to(:question, Question, references: :uuid)
     timestamps()
   end
 
   def all, do: Repo.all(Answer)
+
+  def find(uuid), do: Repo.get(Answer, uuid)
 
   def create(attrs \\ %{}) do
     %Answer{}
@@ -42,7 +45,30 @@ defmodule GoEscuelaLms.Core.Schema.Answer do
 
   def changeset(course, attrs) do
     course
-    |> cast(attrs, [:description, :match_answer, :feedback, :correct_answer, :question_id])
+    |> cast(attrs, [
+      :description,
+      :match_answer,
+      :feedback,
+      :correct_answer,
+      :question_id,
+      :options_answers
+    ])
+    |> add_options_answers_if_missing()
     |> validate_required([:description, :correct_answer, :question_id])
+  end
+
+  defp add_options_answers_if_missing(%Ecto.Changeset{changes: %{options_answers: _}} = changeset) do
+    changeset
+  end
+
+  defp add_options_answers_if_missing(
+         %Ecto.Changeset{data: %Answer{options_answers: nil}} = changeset
+       ) do
+    changeset
+    |> put_change(:options_answers, [])
+  end
+
+  defp add_options_answers_if_missing(changeset) do
+    changeset
   end
 end
