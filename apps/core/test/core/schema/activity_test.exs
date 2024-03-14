@@ -1,5 +1,8 @@
 defmodule Core.ActivityTest do
   use ExUnit.Case
+  use Core.DataCase
+
+  import Core.Factory
 
   alias GoEscuelaLms.Core.Schema.Activity
 
@@ -31,6 +34,19 @@ defmodule Core.ActivityTest do
       assert Activity.__schema__(:type, :start_date) == :utc_datetime
       assert Activity.__schema__(:type, :end_date) == :utc_datetime
       assert Activity.__schema__(:type, :max_attempts) == :integer
+    end
+
+    test "associations" do
+      assert Activity.__schema__(:association, :topic).__struct__ == Ecto.Association.BelongsTo
+      assert Activity.__schema__(:association, :questions).__struct__ == Ecto.Association.Has
+    end
+  end
+
+  describe " all/0" do
+    test "should return all activities" do
+      Enum.each(0..3, fn _ -> insert!(:activity) end)
+
+      assert Activity.all() |> Enum.count() == 4
     end
   end
 end
