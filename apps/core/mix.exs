@@ -36,7 +36,8 @@ defmodule Core.MixProject do
       {:bcrypt_elixir, "~> 3.1"},
       {:google_api_storage, "~> 0.34.0"},
       {:goth, "~> 1.4"},
-      {:solid, "~> 0.15.2"}
+      {:solid, "~> 0.15.2"},
+      {:faker, "~> 0.18.0", only: :test}
     ]
   end
 end

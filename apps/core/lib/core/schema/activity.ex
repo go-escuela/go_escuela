@@ -35,12 +35,6 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
     |> Repo.preload(questions: :answers)
   end
 
-  def create(attrs \\ %{}) do
-    %Activity{}
-    |> Activity.changeset(attrs)
-    |> Repo.insert()
-  end
-
   def create_with_resource(attrs \\ %{}) do
     Repo.transaction(fn ->
       with {:ok, activity} <- Activity.create(attrs),
@@ -64,6 +58,12 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
           Repo.rollback({:failed, error})
       end
     end)
+  end
+
+  def create(attrs \\ %{}) do
+    %Activity{}
+    |> Activity.changeset(attrs)
+    |> Repo.insert()
   end
 
   def activity_types, do: Ecto.Enum.dump_values(Activity, :activity_type)

@@ -44,4 +44,7 @@ config :guardian, Guardian.DB,
 config :core,
   bucket: System.get_env("GOOGLE_BUCKET", "bucket")
 
+config :core,
+  environment: Mix.env()
+
 import_config "#{Mix.env()}.exs"
