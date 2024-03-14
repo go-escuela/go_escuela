@@ -4,6 +4,7 @@ defmodule Core.ActivityTest do
 
   import Core.Factory
 
+  alias GoEscuelaLms.Core.Repo
   alias GoEscuelaLms.Core.Schema.Activity
 
   describe "schema" do
@@ -42,11 +43,19 @@ defmodule Core.ActivityTest do
     end
   end
 
-  describe " all/0" do
+  describe "all/0" do
     test "should return all activities" do
       Enum.each(0..3, fn _ -> insert!(:activity) end)
 
       assert Activity.all() |> Enum.count() == 4
+    end
+  end
+
+  describe "find/1" do
+    test "when exist" do
+      activity = insert!(:activity) |> Repo.preload(questions: :answers)
+
+      assert Activity.find(activity.uuid) == activity
     end
   end
 end
