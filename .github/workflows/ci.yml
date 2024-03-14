@@ -163,6 +163,7 @@ jobs:
     env:
       MIX_ENV: test
       TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/go_escuela_lms_test
+      GOOGLE_API_CREDENTIALS: eyJhY2Nlc3NfdG9rZW4iOiAiZHVtbXkiLCAiZXhwaXJlc19pbiI6IDM1OTksICJ0b2tlbl90eXBlIjogIkJlYXJlciJ9
     strategy:
       matrix:
         elixir: [1.14]
