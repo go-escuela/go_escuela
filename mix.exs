@@ -10,13 +10,11 @@ defmodule GoEscuelaLms.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
-      test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.json": :test,
-        "coveralls.html": :test
+      test_coverage: [
+        tool: ExCoveralls,
+        summary: [
+          threshold: 80
+        ]
       ],
       dialyzer: [
         ignore_warnings: ".dialyzer_ignore.exs",
