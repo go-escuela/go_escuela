@@ -9,8 +9,13 @@ defmodule Core.ActivityTest do
   alias GoEscuelaLms.Core.Schema.Activity
   alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
 
+  setup do
+    topic = insert!(:topic)
+    {:ok, topic: topic}
+  end
+
   describe "schema" do
-    test "metadata" do
+    test "metadata", _context do
       assert Activity.__schema__(:source) == "activities"
 
       assert Activity.__schema__(:fields) == [
@@ -29,7 +34,7 @@ defmodule Core.ActivityTest do
              ]
     end
 
-    test "types metadata" do
+    test "types metadata", _context do
       assert Activity.__schema__(:type, :uuid) == Ecto.UUID
       assert Activity.__schema__(:type, :name) == :string
       assert Activity.__schema__(:type, :enabled) == :boolean
@@ -39,15 +44,14 @@ defmodule Core.ActivityTest do
       assert Activity.__schema__(:type, :max_attempts) == :integer
     end
 
-    test "associations" do
+    test "associations", _context do
       assert Activity.__schema__(:association, :topic).__struct__ == Ecto.Association.BelongsTo
       assert Activity.__schema__(:association, :questions).__struct__ == Ecto.Association.Has
     end
   end
 
   describe "all/0" do
-    test "should return all activities" do
-      topic = insert!(:topic)
+    test "should return all activities", %{topic: topic} = _context do
       Enum.each(0..3, fn _ -> insert!(:activity, topic_id: topic.uuid) end)
 
       assert Activity.all() |> Enum.count() == 4
@@ -55,27 +59,24 @@ defmodule Core.ActivityTest do
   end
 
   describe "find/1" do
-    test "when exist" do
-      topic = insert!(:topic)
+    test "when exist", %{topic: topic} = _context do
       activity = insert!(:activity, topic_id: topic.uuid) |> Repo.preload(questions: :answers)
 
       assert Activity.find(activity.uuid) == activity
     end
 
-    test "when does not exist" do
+    test "when does not exist", _context do
       assert Activity.find("28a11d64-5fd9-4028-8707-aeac06c7d10e") == nil
     end
 
-    test "with invalid uuid" do
+    test "with invalid uuid", _context do
       assert Activity.find("xxxx") == nil
       assert Activity.find(nil) == nil
     end
   end
 
   describe "create_with_resource/1" do
-    test "create valid activity" do
-      topic = insert!(:topic)
-
+    test "create valid activity", %{topic: topic} = _context do
       activity =
         build(:activity, activity_type: :resource, topic_id: topic.uuid) |> Map.from_struct()
 
@@ -96,14 +97,25 @@ defmodule Core.ActivityTest do
       end
     end
 
-    # test "invalid create activity" do
-    #   with_mocks [
-    #     {GCPManager, [:passthrough], upload: fn _, _ -> {:error, "resource"} end}
-    #   ] do
-    #     activity = build(:activity, activity_type: :resource)
+    test "invalid create activity with invalid upload", %{topic: topic} = _context do
+      with_mocks [
+        {GCPManager, [:passthrough], upload: fn _, _ -> {:error, "resource"} end}
+      ] do
+        activity =
+          build(:activity, activity_type: :resource, topic_id: topic.uuid) |> Map.from_struct()
 
-    #     assert Activity.create_with_resource(activity) == activity
-    #   end
-    # end
+        assert Activity.create_with_resource(activity) ==
+                 {:error, {:failed, {:error, "resource"}}}
+      end
+    end
+
+    test "invalid create activity", _context do
+      with_mocks [
+        {GCPManager, [:passthrough], upload: fn _, _ -> {:error, "resource"} end}
+      ] do
+        {:error, {:failed, {:error, errors}}} = Activity.create_with_resource(%{})
+        assert errors.valid? == false
+      end
+    end
   end
 end
