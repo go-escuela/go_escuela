@@ -37,7 +37,8 @@ defmodule Core.MixProject do
       {:google_api_storage, "~> 0.34.0"},
       {:goth, "~> 1.4"},
       {:solid, "~> 0.15.2"},
-      {:faker, "~> 0.18.0", only: :test}
+      {:faker, "~> 0.18.0", only: [:dev, :test]},
+      {:mock, "~> 0.3.8"}
     ]
   end
 end

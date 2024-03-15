@@ -31,8 +31,14 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
   def all, do: Repo.all(Activity) |> Repo.preload(questions: :answers)
 
   def find(uuid) do
-    Repo.get(Activity, uuid)
-    |> Repo.preload(questions: :answers)
+    case Ecto.UUID.dump(uuid) do
+      {:ok, _} ->
+        Repo.get(Activity, uuid)
+        |> Repo.preload(questions: :answers)
+
+      _ ->
+        nil
+    end
   end
 
   def create_with_resource(attrs \\ %{}) do
@@ -74,7 +80,17 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
 
   def changeset(course, attrs) do
     course
-    |> cast(attrs, [:name, :enabled, :feedback, :activity_type, :topic_id])
+    |> cast(attrs, [
+      :name,
+      :enabled,
+      :feedback,
+      :start_date,
+      :end_date,
+      :max_attempts,
+      :grade_pass,
+      :activity_type,
+      :topic_id
+    ])
     |> validate_required([:name, :activity_type, :topic_id])
   end
 end
