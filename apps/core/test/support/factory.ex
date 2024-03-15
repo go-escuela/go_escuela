@@ -4,11 +4,11 @@ defmodule Core.Factory do
   """
 
   alias GoEscuelaLms.Core.Repo
-  alias GoEscuelaLms.Core.Schema.{Activity}
+  alias GoEscuelaLms.Core.Schema.{Activity, Topic}
 
   def build(:activity) do
     %Activity{
-      name: Faker.Lorem.word(),
+      name: Faker.Lorem.sentence(),
       enabled: true,
       feedback: nil,
       start_date: DateTime.truncate(DateTime.utc_now(), :second),
@@ -16,6 +16,12 @@ defmodule Core.Factory do
       max_attempts: 1,
       grade_pass: 70.0,
       activity_type: :quiz
+    }
+  end
+
+  def build(:topic) do
+    %Topic{
+      name: Faker.Lorem.word()
     }
   end
 
