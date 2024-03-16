@@ -36,10 +36,11 @@ defmodule Core.Factory do
 
   def build(:question) do
     %Question{
-      tittle: Faker.Lorem.word(),
+      title: Faker.Lorem.word(),
       description: nil,
-      mark: true,
-      feedback: true
+      mark: 10.0,
+      feedback: nil,
+      question_type: :multiple_choice
     }
   end
 
@@ -48,7 +49,7 @@ defmodule Core.Factory do
       description: Faker.Lorem.word(),
       match_answer: nil,
       feedback: nil,
-      correct_answer: :answer
+      correct_answer: true
     }
   end
 

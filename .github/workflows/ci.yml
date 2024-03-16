@@ -200,7 +200,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           coverage_threshold: 80
-          # working_directory: ./your_project_directory
     services:
       pg:
         image: postgres:16

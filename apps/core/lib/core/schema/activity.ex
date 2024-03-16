@@ -60,7 +60,6 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
         activity |> Repo.preload(questions: :answers)
       else
         error ->
-          IO.puts("#{inspect(error)}")
           Repo.rollback({:failed, error})
       end
     end)
@@ -74,9 +73,9 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
 
   def activity_types, do: Ecto.Enum.dump_values(Activity, :activity_type)
 
-  def resource?(activity) do
-    activity.activity_type == :resource
-  end
+  def resource?(activity), do: activity.activity_type == :resource
+
+  def quiz?(activity), do: activity.activity_type == :quiz
 
   def changeset(course, attrs) do
     course
