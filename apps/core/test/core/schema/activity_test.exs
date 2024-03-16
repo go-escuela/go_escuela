@@ -10,7 +10,8 @@ defmodule Core.ActivityTest do
   alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
 
   setup do
-    topic = insert!(:topic)
+    course = insert!(:course)
+    topic = insert!(:topic, course_id: course.uuid)
     {:ok, topic: topic}
   end
 
@@ -116,6 +117,13 @@ defmodule Core.ActivityTest do
         {:error, {:failed, {:error, errors}}} = Activity.create_with_resource(%{})
         assert errors.valid? == false
       end
+    end
+  end
+
+  describe "create_with_quiz/1" do
+    test "create valid activity", %{topic: topic} = _context do
+      activity =
+        build(:activity, activity_type: :resource, topic_id: topic.uuid) |> Map.from_struct()
     end
   end
 end
