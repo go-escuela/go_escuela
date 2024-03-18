@@ -10,7 +10,8 @@ defmodule Core.ActivityTest do
   alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
 
   setup do
-    topic = insert!(:topic)
+    course = insert!(:course)
+    topic = insert!(:topic, course_id: course.uuid)
     {:ok, topic: topic}
   end
 
@@ -116,6 +117,98 @@ defmodule Core.ActivityTest do
         {:error, {:failed, {:error, errors}}} = Activity.create_with_resource(%{})
         assert errors.valid? == false
       end
+    end
+  end
+
+  describe "create_with_quiz/1" do
+    test "create valid activity", %{topic: topic} = _context do
+      questions = [
+        %{
+          mark: 10.0,
+          description: nil,
+          title: Faker.Lorem.sentence(),
+          uuid: nil,
+          feedback: nil,
+          question_type: :multiple_choice,
+          answers: [
+            %{
+              description: Faker.Lorem.sentence(),
+              match_answer: nil,
+              feedback: nil,
+              correct_answer: true
+            }
+          ]
+        }
+      ]
+
+      activity =
+        build(:activity, activity_type: :quiz, topic_id: topic.uuid, questions: questions)
+        |> Map.from_struct()
+
+      {:ok, resource_activity} = Activity.create_with_quiz(activity)
+
+      assert resource_activity.activity_type == activity.activity_type
+      assert resource_activity.enabled == activity.enabled
+      assert resource_activity.end_date == activity.end_date
+      assert resource_activity.feedback == activity.feedback
+      assert resource_activity.grade_pass == activity.grade_pass
+      assert resource_activity.max_attempts == activity.max_attempts
+      assert resource_activity.name == activity.name
+      assert resource_activity.start_date == activity.start_date
+      assert resource_activity.topic_id == activity.topic_id
+    end
+
+    test "invalid create activity", _context do
+      {:error, {:failed, {:error, errors}}} = Activity.create_with_quiz(%{})
+
+      assert errors.valid? == false
+    end
+  end
+
+  describe "create/1" do
+    test "create valid activity", %{topic: topic} = _context do
+      activity =
+        build(:activity, topic_id: topic.uuid) |> Map.from_struct()
+
+      {:ok, resource_activity} = Activity.create(activity)
+
+      assert resource_activity.activity_type == activity.activity_type
+      assert resource_activity.enabled == activity.enabled
+      assert resource_activity.end_date == activity.end_date
+      assert resource_activity.feedback == activity.feedback
+      assert resource_activity.grade_pass == activity.grade_pass
+      assert resource_activity.max_attempts == activity.max_attempts
+      assert resource_activity.name == activity.name
+      assert resource_activity.start_date == activity.start_date
+      assert resource_activity.topic_id == activity.topic_id
+    end
+
+    test "invalid create activity", _context do
+      {:error, errors} = Activity.create(%{})
+
+      assert errors.valid? == false
+    end
+  end
+
+  describe "activity_types/0" do
+    test "return all activity_types", _context do
+      assert Activity.activity_types() == ["resource", "quiz"]
+    end
+  end
+
+  describe "resource?/1" do
+    test "return true resource", %{topic: topic} = _context do
+      activity = build(:activity, activity_type: :resource, topic_id: topic.uuid)
+
+      assert activity |> Activity.resource?() == true
+    end
+  end
+
+  describe "quiz?/1" do
+    test "return true resource", %{topic: topic} = _context do
+      activity = build(:activity, activity_type: :quiz, topic_id: topic.uuid)
+
+      assert activity |> Activity.quiz?() == true
     end
   end
 end

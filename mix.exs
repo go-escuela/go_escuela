@@ -44,7 +44,7 @@ defmodule GoEscuelaLms.MixProject do
     [
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.18.0", only: [:dev, :test]}
+      {:excoveralls, "~> 0.18.0", only: :test}
     ]
   end
 
