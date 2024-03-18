@@ -196,15 +196,15 @@ defmodule Core.ActivityTest do
     end
   end
 
-  describe "resource?/0" do
-    test "return true resource", %{topic: topic} do
+  describe "resource?/1" do
+    test "return true resource", %{topic: topic} = _context do
       activity = build(:activity, activity_type: :resource, topic_id: topic.uuid)
 
       assert activity |> Activity.resource?() == true
     end
   end
 
-  describe "quiz?/0" do
+  describe "quiz?/1" do
     test "return true resource", %{topic: topic} = _context do
       activity = build(:activity, activity_type: :quiz, topic_id: topic.uuid)
 
