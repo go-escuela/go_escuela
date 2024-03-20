@@ -27,21 +27,27 @@ defmodule GoEscuelaLms.Core.Schema.Course do
 
   def all, do: Repo.all(Course)
 
-  def all(instructor_id) do
+  def all(user_id) do
     query =
       from(c in Course,
         join: e in Enrollment,
         on: c.uuid == e.course_id,
-        where: e.user_id == ^instructor_id
+        where: e.user_id == ^user_id
       )
 
     Repo.all(query)
   end
 
   def find(uuid) do
-    Repo.get(Course, uuid)
-    |> Repo.preload(:topics)
-    |> Repo.preload(:enrollments)
+    case Ecto.UUID.dump(uuid) do
+      {:ok, _} ->
+        Repo.get(Course, uuid)
+        |> Repo.preload(:topics)
+        |> Repo.preload(:enrollments)
+
+      _ ->
+        nil
+    end
   end
 
   def create(attrs \\ %{}) do

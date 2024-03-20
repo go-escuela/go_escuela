@@ -1,0 +1,6 @@
+{
+    "skip_files": [
+      "folder_to_skip",
+      "test/support/data_case.ex"
+    ]
+  }
