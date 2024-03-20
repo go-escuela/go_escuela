@@ -82,7 +82,7 @@ defmodule Core.AnswerTest do
       assert created_answer.options_answers == answer.options_answers
     end
 
-    test "invalid create activity", _context do
+    test "invalid create answer", _context do
       {:error, errors} = Answer.create(%{})
 
       assert errors.valid? == false
