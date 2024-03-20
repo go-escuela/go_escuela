@@ -4,7 +4,17 @@ defmodule Core.Factory do
   """
 
   alias GoEscuelaLms.Core.Repo
-  alias GoEscuelaLms.Core.Schema.{Activity, Answer, Course, Question, Enrollment, Topic, User}
+
+  alias GoEscuelaLms.Core.Schema.{
+    Activity,
+    Answer,
+    Course,
+    Enrollment,
+    InstitutionInfo,
+    Question,
+    Topic,
+    User
+  }
 
   def build(:activity) do
     %Activity{
@@ -64,6 +74,12 @@ defmodule Core.Factory do
       email: Faker.Internet.email(),
       role: :instructor,
       password_hash: Faker.String.base64(100)
+    }
+  end
+
+  def build(:institution_info) do
+    %InstitutionInfo{
+      name: Faker.App.name()
     }
   end
 
