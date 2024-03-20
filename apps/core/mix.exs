@@ -12,7 +12,8 @@ defmodule Core.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -38,7 +39,8 @@ defmodule Core.MixProject do
       {:goth, "~> 1.4"},
       {:solid, "~> 0.15.2"},
       {:faker, "~> 0.18.0", only: [:dev, :test]},
-      {:mock, "~> 0.3.8"}
+      {:mock, "~> 0.3.8"},
+      {:excoveralls, "~> 0.18.0", only: :test}
     ]
   end
 end

@@ -13,7 +13,8 @@ defmodule Web.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -46,7 +47,8 @@ defmodule Web.MixProject do
       {:guardian, "~> 2.3"},
       {:guardian_db, "~> 3.0"},
       {:core, in_umbrella: true},
-      {:tarams, "~> 1.8"}
+      {:tarams, "~> 1.8"},
+      {:excoveralls, "~> 0.18.0", only: :test}
     ]
   end
 
