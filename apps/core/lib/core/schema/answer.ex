@@ -26,7 +26,15 @@ defmodule GoEscuelaLms.Core.Schema.Answer do
 
   def all, do: Repo.all(Answer)
 
-  def find(uuid), do: Repo.get(Answer, uuid)
+  def find(uuid) do
+    case Ecto.UUID.dump(uuid) do
+      {:ok, _} ->
+        Repo.get(Answer, uuid)
+
+      _ ->
+        nil
+    end
+  end
 
   def create(attrs \\ %{}) do
     %Answer{}

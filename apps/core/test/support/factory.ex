@@ -49,6 +49,7 @@ defmodule Core.Factory do
       description: Faker.Lorem.word(),
       match_answer: nil,
       feedback: nil,
+      options_answers: [],
       correct_answer: true
     }
   end
