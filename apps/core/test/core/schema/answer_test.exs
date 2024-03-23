@@ -53,7 +53,7 @@ defmodule Core.AnswerTest do
   end
 
   describe "find/1" do
-    test "when exist", %{question: question} = _context do
+    test "when exist", %{question: question} do
       answer = insert!(:answer, question_id: question.uuid)
 
       assert Answer.find(answer.uuid) == answer
