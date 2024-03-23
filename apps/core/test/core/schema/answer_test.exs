@@ -53,14 +53,14 @@ defmodule Core.AnswerTest do
   end
 
   describe "find/1" do
-    test "when exist", %{question: question} = _context do
+    test "when exist", %{question: question} do
       answer = insert!(:answer, question_id: question.uuid)
 
       assert Answer.find(answer.uuid) == answer
     end
 
     test "when does not exist", _context do
-      assert Answer.find("28a11d64-5fd9-4028-8707-aeac06c7d10e") == nil
+      assert Answer.find(Faker.UUID.v4()) == nil
     end
 
     test "with invalid uuid", _context do

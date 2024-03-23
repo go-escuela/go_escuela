@@ -20,7 +20,7 @@ defmodule Core.Factory do
     %Activity{
       name: Faker.Lorem.sentence(),
       enabled: true,
-      feedback: nil,
+      feedback: Faker.Lorem.sentence(),
       start_date: DateTime.truncate(DateTime.utc_now(), :second),
       end_date: DateTime.truncate(DateTime.utc_now(), :second),
       max_attempts: 1,
@@ -39,17 +39,17 @@ defmodule Core.Factory do
   def build(:course) do
     %Course{
       name: Faker.Lorem.word(),
-      description: nil,
+      description: Faker.Lorem.sentence(),
       enabled: true
     }
   end
 
   def build(:question) do
     %Question{
-      title: Faker.Lorem.word(),
-      description: nil,
+      title: Faker.Lorem.sentence(),
+      description: Faker.Lorem.sentence(),
       mark: 10.0,
-      feedback: nil,
+      feedback: Faker.Lorem.sentence(),
       question_type: :multiple_choice
     }
   end
@@ -58,7 +58,7 @@ defmodule Core.Factory do
     %Answer{
       description: Faker.Lorem.word(),
       match_answer: nil,
-      feedback: nil,
+      feedback: Faker.Lorem.sentence(),
       options_answers: [],
       correct_answer: true
     }

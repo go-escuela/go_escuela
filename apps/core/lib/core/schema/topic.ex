@@ -21,15 +21,15 @@ defmodule GoEscuelaLms.Core.Schema.Topic do
     timestamps()
   end
 
+  def find(uuid) do
+    Repo.get(Topic, uuid)
+    |> Repo.preload(:activities)
+  end
+
   def create(attrs \\ %{}) do
     %Topic{}
     |> Topic.changeset(attrs)
     |> Repo.insert()
-  end
-
-  def find(uuid) do
-    Repo.get(Topic, uuid)
-    |> Repo.preload(:activities)
   end
 
   def update(%Topic{} = topic, attrs) do

@@ -67,7 +67,7 @@ defmodule Core.ActivityTest do
     end
 
     test "when does not exist", _context do
-      assert Activity.find("28a11d64-5fd9-4028-8707-aeac06c7d10e") == nil
+      assert Activity.find(Faker.UUID.v4()) == nil
     end
 
     test "with invalid uuid", _context do

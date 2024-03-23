@@ -6,7 +6,7 @@ defmodule GoEscuelaLms.Core.GCP.Manager do
 
   @dialyzer {:no_return, {:upload, 2}}
 
-  def upload(object, resource) do
+  def upload(%{} = object, resource) do
     conn = connection()
     file_name = resource.filename
     path = resource.path
@@ -19,19 +19,11 @@ defmodule GoEscuelaLms.Core.GCP.Manager do
 
     file_binary = File.open!(path)
     bytes = IO.binread(file_binary, :eof)
-    bucket = Application.get_env(:core, :bucket)
 
-    upload_result =
-      GoogleApi.Storage.V1.Api.Objects.storage_objects_insert_iodata(
-        conn,
-        "#{bucket}",
-        "multipart",
-        meta,
-        bytes
-      )
+    object_result = insert_objects(conn, meta, bytes)
 
     result =
-      case upload_result do
+      case object_result do
         {:ok, %GoogleApi.Storage.V1.Model.Object{} = result} ->
           Logger.info("File uploaded to GCP Storage - #{file_name}")
           File.close(file_binary)
@@ -46,8 +38,23 @@ defmodule GoEscuelaLms.Core.GCP.Manager do
     result
   end
 
+  def insert_objects(conn, meta, bytes) do
+    GoogleApi.Storage.V1.Api.Objects.storage_objects_insert_iodata(
+      conn,
+      "#{bucket()}",
+      "multipart",
+      meta,
+      bytes
+    )
+  end
+
   def connection() do
     {:ok, token} = Goth.fetch(Core.Goth)
+    IO.puts("connection ==> #{inspect(token)}")
     GoogleApi.Storage.V1.Connection.new(token.token)
+  end
+
+  defp bucket() do
+    Application.get_env(:core, :bucket)
   end
 end

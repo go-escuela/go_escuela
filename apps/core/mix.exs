@@ -12,7 +12,12 @@ defmodule Core.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      test_coverage: [
+        summary: [
+          threshold: 80
+        ]
+      ]
     ]
   end
 

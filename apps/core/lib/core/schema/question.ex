@@ -34,7 +34,15 @@ defmodule GoEscuelaLms.Core.Schema.Question do
     |> Repo.preload(:answers)
   end
 
+  def create(attrs \\ %{}) do
+    %Question{}
+    |> Question.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def bulk_create(activity, records) do
+    IO.puts("RECORDS ===> #{inspect(records)}")
+
     Repo.transaction(fn ->
       Enum.each(records, fn record ->
         question =
@@ -46,12 +54,6 @@ defmodule GoEscuelaLms.Core.Schema.Question do
 
       :ok
     end)
-  end
-
-  def create(attrs \\ %{}) do
-    %Question{}
-    |> Question.changeset(attrs)
-    |> Repo.insert()
   end
 
   def question_types, do: Ecto.Enum.dump_values(Question, :question_type)
