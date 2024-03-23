@@ -1,4 +1,4 @@
 [
-  {"  apps/core/lib/core/uploader.ex", :no_return}
+  {"  apps/core/lib/core/gcp/manager.ex", :no_return}
 
 ]
