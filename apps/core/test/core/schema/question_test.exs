@@ -55,7 +55,7 @@ defmodule Core.QuestionTest do
     end
 
     test "when does not exist", _context do
-      assert Question.find("28a11d64-5fd9-4028-8707-aeac06c7d10e") == nil
+      assert Question.find(Faker.UUID.v4()) == nil
     end
   end
 
