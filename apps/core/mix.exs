@@ -44,7 +44,7 @@ defmodule Core.MixProject do
       {:solid, "~> 0.15.2"},
       {:faker, "~> 0.18.0", only: [:dev, :test]},
       {:mock, "~> 0.3.8"},
-      {:excoveralls, "~> 0.18.0", only: :test}
+      {:sobelow, "~> 0.13.0", only: [:dev, :test], runtime: false}
     ]
   end
 end

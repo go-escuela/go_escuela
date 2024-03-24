@@ -52,7 +52,7 @@ defmodule Web.MixProject do
       {:guardian_db, "~> 3.0"},
       {:core, in_umbrella: true},
       {:tarams, "~> 1.8"},
-      {:excoveralls, "~> 0.18.0", only: :test}
+      {:sobelow, "~> 0.13.0", only: [:dev, :test], runtime: false}
     ]
   end
 
