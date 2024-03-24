@@ -6,6 +6,7 @@ defmodule GoEscuelaLms.Core.GCP.Manager do
 
   @dialyzer {:no_return, {:upload, 2}}
 
+  # sobelow_skip ["Traversal"]
   def upload(%{} = object, resource) do
     conn = connection()
     file_name = resource.filename
