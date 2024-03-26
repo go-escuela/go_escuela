@@ -28,6 +28,10 @@ defmodule Web.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import Web.ConnCase
+
+      def session_conn() do
+        build_conn() |> Plug.Test.init_test_session(%{})
+      end
     end
   end
 
