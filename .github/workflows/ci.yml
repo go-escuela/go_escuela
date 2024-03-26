@@ -273,4 +273,4 @@ jobs:
         if: steps.mix-cache.outputs.cache-hit != 'true'
         run: mix deps.get
       - name: ==> 🔎 Sobelow Security
-        run: mix  sobelow -r apps/core --skip && mix sobelow -r apps/web/ --skip
+        run: mix  sobelow -r apps/core --skip && mix sobelow -r apps/web/ --config
