@@ -10,8 +10,8 @@ defmodule Web.Activities.ActivitiesController do
 
   plug :permit_authorized when action in [:create]
   plug :load_course when action in [:create]
-  plug :check_enrollment when action in [:create]
   plug :load_topic when action in [:create]
+  plug :check_enrollment when action in [:create]
 
   @create_params %{
     name: [type: :string, required: true],
@@ -84,6 +84,10 @@ defmodule Web.Activities.ActivitiesController do
         end
     end
   end
+
+  def answers_cast_params(%{"activity_type" => activity_type} = params)
+      when activity_type in ~w(resource),
+      do: {:ok, params}
 
   def answers_cast_params(params) do
     result =
