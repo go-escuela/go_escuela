@@ -21,8 +21,6 @@ defmodule Web.Router do
 
   scope "/api", Web do
     pipe_through [:api, :auth]
-
-    post "/onboarding/organizer", Onboarding.OrganizerController, :create
     get "/onboarding/institution_info", Onboarding.InstitutionInfoController, :show
 
     resources "/users", Users.UsersController, only: [:create, :update, :index, :delete] do
@@ -37,7 +35,7 @@ defmodule Web.Router do
       resources "/enrollments", Enrollments.EnrollmentsController, only: [:index]
     end
 
-    resources "/enrollments", Enrollments.EnrollmentsController, only: [:create, :delete]
+    resources "/enrollments", Enrollments.EnrollmentsController, only: [:index, :create, :delete]
 
     get "/profile", Users.ProfileController, :show
     put "/profile", Users.ProfileController, :update

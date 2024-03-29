@@ -6,11 +6,11 @@ defmodule Web.Enrollments.EnrollmentsController do
   import Web.Auth.AuthorizedPlug
   import Web.Plug.CheckRequest
 
-  alias GoEscuelaLms.Core.Schema.{Enrollment}
+  alias GoEscuelaLms.Core.Schema.{Course, Enrollment}
 
-  plug :permit_authorized when action in [:index, :create]
+  plug :organizer_authorized when action in [:create, :delete]
+  plug :load_course when action in [:create]
   plug :load_user when action in [:create]
-  plug :load_course when action in [:create, :index]
   plug :load_enrollment when action in [:delete]
 
   @create_params %{
@@ -18,9 +18,19 @@ defmodule Web.Enrollments.EnrollmentsController do
     user_id: [type: :string, required: true]
   }
 
+  def index(conn, %{"courses_id" => course_id}) do
+    with course <- Course.find(course_id),
+         false <- is_nil(course) do
+      render(conn, :index, %{enrollments: course.enrollments})
+    else
+      _ ->
+        Web.FallbackController.call(conn, {:error, "course is invalid"}) |> halt()
+    end
+  end
+
   def index(conn, _params) do
-    course = conn.assigns.course
-    render(conn, :index, %{enrollments: course.enrollments})
+    user = conn.assigns.account
+    render(conn, :index, %{enrollments: user.enrollments})
   end
 
   def create(conn, params) do
