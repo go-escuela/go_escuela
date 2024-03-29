@@ -145,7 +145,9 @@ defmodule Web.EnrollmentsControllerTest do
   end
 
   describe "delete/2" do
-    test "unauthorized", %{user: user} do
+    test "unauthorized", %{user: user, course: course} do
+      enrollment = insert!(:enrollment, course_id: course.uuid, user_id: user.uuid)
+
       {:ok, token, _} = encode_and_sign(user, %{}, token_type: :access)
 
       conn =
@@ -153,7 +155,7 @@ defmodule Web.EnrollmentsControllerTest do
         |> put_session(:user_id, user.uuid)
         |> put_req_header("accept", "application/json")
         |> put_req_header("authorization", "Bearer " <> token)
-        |> delete(~p"/api/enrollments")
+        |> delete(~p"/api/enrollments/#{enrollment.uuid}")
 
       assert json_response(conn, 403)["errors"] == %{"detail" => "Forbidden resource"}
     end
