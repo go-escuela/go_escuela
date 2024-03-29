@@ -22,8 +22,9 @@ defmodule Web.Enrollments.EnrollmentsJSON do
   defp data(%Enrollment{} = enrollment) do
     %{
       id: enrollment.uuid,
-      enrollment_id: enrollment.uuid,
-      inserted_at: enrollment.inserted_at
+      course_id: enrollment.course_id,
+      user_id: enrollment.user_id,
+      inserted_at: enrollment.inserted_at |> to_string()
     }
   end
 end

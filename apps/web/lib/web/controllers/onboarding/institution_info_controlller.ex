@@ -14,8 +14,4 @@ defmodule Web.Onboarding.InstitutionInfoController do
 
     render(conn, :show, %{institution_info: institution_info})
   end
-
-  def update(conn, _params) do
-    render(conn, :update, %{})
-  end
 end

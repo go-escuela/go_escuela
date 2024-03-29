@@ -4,6 +4,6 @@ defmodule Web.Home.PageController do
   action_fallback Web.FallbackController
 
   def show(conn, _params) do
-    render(conn, :show, %{})
+    render(conn, :show, %{status: :ok})
   end
 end
