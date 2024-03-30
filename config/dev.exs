@@ -13,7 +13,7 @@ config :web, Web.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "xj5hlrtrUPTI8a4Odh00U0yHeUXNtj2RaBk8UMWvt1xPlgg4iwTP54Z69J7ug4io",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   watchers: []
 
 # ## SSL Support
