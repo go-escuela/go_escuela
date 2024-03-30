@@ -17,7 +17,7 @@ defmodule GoEscuelaLms.MixProject do
         plt_add_apps: [:ex_unit]
       ],
       releases: [
-        web: [
+        api: [
           applications: [
             web: :permanent,
             core: :permanent

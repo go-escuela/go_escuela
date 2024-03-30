@@ -1,0 +1,10 @@
+version: "3.2"
+
+services:
+  postgres:
+    image: sameersbn/postgresql
+    restart: always
+    environment:
+      - PG_PASSWORD=postgres
+    ports:
+      - "5432:5432"
