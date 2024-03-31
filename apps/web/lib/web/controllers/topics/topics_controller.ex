@@ -36,7 +36,7 @@ defmodule Web.Topics.TopicsController do
   end
 
   def delete(conn, _params) do
-    topic = conn.assigns.topic
+    topic = conn.assigns.object
 
     case topic |> Topic.delete() do
       {:ok, topic} ->
