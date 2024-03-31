@@ -16,7 +16,7 @@ defmodule Web.MixProject do
       deps: deps(),
       test_coverage: [
         summary: [
-          threshold: 70
+          threshold: 80
         ]
       ]
     ]

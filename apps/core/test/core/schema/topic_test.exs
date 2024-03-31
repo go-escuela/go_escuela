@@ -33,7 +33,10 @@ defmodule Core.TopicTest do
 
   describe "find/1" do
     test "when exist", %{course: course} do
-      topic = insert!(:topic, course_id: course.uuid) |> Repo.preload(:activities)
+      topic =
+        insert!(:topic, course_id: course.uuid)
+        |> Repo.preload(:course)
+        |> Repo.preload(:activities)
 
       assert Topic.find(topic.uuid) == topic
     end

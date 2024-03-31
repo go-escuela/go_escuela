@@ -23,6 +23,7 @@ defmodule GoEscuelaLms.Core.Schema.Topic do
 
   def find(uuid) do
     Repo.get(Topic, uuid)
+    |> Repo.preload(:course)
     |> Repo.preload(:activities)
   end
 

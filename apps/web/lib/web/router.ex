@@ -28,13 +28,14 @@ defmodule Web.Router do
     end
 
     resources "/courses", Courses.CoursesController, only: [:create, :update, :index, :show] do
-      resources "/topics", Topics.TopicsController, only: [:create, :update, :delete] do
+      resources "/topics", Topics.TopicsController, only: [:create] do
         resources "/activities", Activities.ActivitiesController, only: [:create]
       end
 
       resources "/enrollments", Enrollments.EnrollmentsController, only: [:index]
     end
 
+    resources "/topics", Topics.TopicsController, only: [:update, :delete]
     resources "/enrollments", Enrollments.EnrollmentsController, only: [:index, :create, :delete]
 
     get "/profile", Users.ProfileController, :show

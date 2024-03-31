@@ -51,7 +51,6 @@ defmodule GoEscuelaLms.Core.GCP.Manager do
 
   def connection() do
     {:ok, token} = Goth.fetch(Core.Goth)
-    IO.puts("connection ==> #{inspect(token)}")
     GoogleApi.Storage.V1.Connection.new(token.token)
   end
 

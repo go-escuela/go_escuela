@@ -25,7 +25,9 @@ defmodule Web.Users.UsersJSON do
     %{
       id: user.uuid,
       email: user.email,
-      full_name: user.full_name
+      role: user.role,
+      full_name: user.full_name,
+      inserted_at: user.inserted_at |> to_string()
     }
   end
 end

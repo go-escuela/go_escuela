@@ -38,7 +38,7 @@ defmodule Web.Plug.CheckRequest do
     with :ok <- valid_uuids(id),
          object <- Topic.find(id),
          false <- is_nil(object) do
-      assign(conn, :topic, object)
+      assign(conn, :object, object)
     else
       _ ->
         Web.FallbackController.call(conn, {:error, "topic is invalid"}) |> halt()
@@ -61,12 +61,14 @@ defmodule Web.Plug.CheckRequest do
   def check_enrollment(%{assigns: %{account: %{role: :organizer}}} = conn, _), do: conn
 
   def check_enrollment(conn, _) do
-    user_id = conn.assigns.account.uuid
-    course = conn.assigns.course
+    account = conn.assigns.account
+    enrollments = account.enrollments
+
+    course = conn.assigns |> get_in([:course]) || conn.assigns.object.course
 
     case is_nil(
-           course.enrollments
-           |> Enum.find(fn enrollment -> enrollment.user_id == user_id end)
+           enrollments
+           |> Enum.find(fn enrollment -> enrollment.course_id == course.uuid end)
          ) do
       false ->
         conn

@@ -59,7 +59,7 @@ defmodule Web.Activities.ActivitiesController do
   }
 
   def create(conn, params) do
-    topic = conn.assigns.topic
+    topic = conn.assigns.object
 
     with {:ok, valid_params} <- Tarams.cast(params, @create_params),
          {:ok, valid_params} <- activity_type_valid_params(params, valid_params),
