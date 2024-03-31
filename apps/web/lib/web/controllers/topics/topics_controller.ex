@@ -8,10 +8,10 @@ defmodule Web.Topics.TopicsController do
 
   alias GoEscuelaLms.Core.Schema.Topic
 
-  plug :permit_authorized when action in [:create]
+  plug :permit_authorized when action in [:create, :update, :delete]
   plug :load_course when action in [:create]
-  plug :check_enrollment when action in [:create]
   plug :load_topic when action in [:update, :delete]
+  plug :check_enrollment when action in [:create, :update, :delete]
 
   @create_params %{
     name: [type: :string, required: true]
@@ -27,7 +27,7 @@ defmodule Web.Topics.TopicsController do
   end
 
   def update(conn, params) do
-    topic = conn.assigns.topic
+    topic = conn.assigns.object
 
     with {:ok, valid_params} <- Tarams.cast(params, @create_params),
          {:ok, topic_updated} <- update_topic(topic, valid_params) do
