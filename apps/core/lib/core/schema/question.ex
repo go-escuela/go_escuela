@@ -41,8 +41,6 @@ defmodule GoEscuelaLms.Core.Schema.Question do
   end
 
   def bulk_create(activity, records) do
-    IO.puts("RECORDS ===> #{inspect(records)}")
-
     Repo.transaction(fn ->
       Enum.each(records, fn record ->
         question =
