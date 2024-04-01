@@ -1,6 +1,6 @@
-# GoEscuelaLms
+# GoEscuela API
 
-Go Escuela LMS - Managment learning system API for go-escuela project.
+Go Escuela - Managment learning system API for go-escuela project.
 
 ## Project structure
 

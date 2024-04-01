@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Repo.Migrations.UsersAddHashPasswordColumn do
+defmodule Core.Repo.Migrations.UsersAddHashPasswordColumn do
   use Ecto.Migration
 
   def change do

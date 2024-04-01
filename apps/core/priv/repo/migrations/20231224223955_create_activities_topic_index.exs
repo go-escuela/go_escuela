@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Repo.Migrations.CreateActivitiesTopicIndex do
+defmodule Core.Repo.Migrations.CreateActivitiesTopicIndex do
   use Ecto.Migration
 
   def change do

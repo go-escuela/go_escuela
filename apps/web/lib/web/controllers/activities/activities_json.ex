@@ -2,7 +2,7 @@ defmodule Web.Activities.ActivitiesJSON do
   @doc """
   Renders users
   """
-  alias GoEscuelaLms.Core.Schema.Activity
+  alias Core.Schema.Activity
 
   def create(%{activity: activity}) do
     case activity |> Activity.resource?() do

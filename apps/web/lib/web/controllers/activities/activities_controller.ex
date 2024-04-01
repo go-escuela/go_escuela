@@ -6,7 +6,7 @@ defmodule Web.Activities.ActivitiesController do
   import Web.Auth.AuthorizedPlug
   import Web.Plug.CheckRequest
 
-  alias GoEscuelaLms.Core.Schema.{Activity, Question}
+  alias Core.Schema.{Activity, Question}
 
   plug :permit_authorized when action in [:create]
   plug :load_course when action in [:create]

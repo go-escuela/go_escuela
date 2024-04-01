@@ -4,8 +4,8 @@ defmodule Core.CourseTest do
 
   import Core.Factory
 
-  alias GoEscuelaLms.Core.Repo
-  alias GoEscuelaLms.Core.Schema.Course
+  alias Core.Repo
+  alias Core.Schema.Course
 
   describe "schema" do
     test "metadata" do

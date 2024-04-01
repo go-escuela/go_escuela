@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.MixProject do
+defmodule GoEscuelaApi.MixProject do
   @moduledoc false
 
   use Mix.Project

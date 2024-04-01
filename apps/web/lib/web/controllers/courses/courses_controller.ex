@@ -6,7 +6,7 @@ defmodule Web.Courses.CoursesController do
   import Web.Auth.AuthorizedPlug
   import Web.Plug.CheckRequest
 
-  alias GoEscuelaLms.Core.Schema.{Course, User}
+  alias Core.Schema.{Course, User}
 
   plug :organizer_authorized when action in [:create, :update]
   plug :load_course when action in [:show, :update]

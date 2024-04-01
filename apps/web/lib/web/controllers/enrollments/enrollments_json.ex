@@ -3,7 +3,7 @@ defmodule Web.Enrollments.EnrollmentsJSON do
   Renders enrollments
   """
 
-  alias GoEscuelaLms.Core.Schema.Enrollment
+  alias Core.Schema.Enrollment
 
   def index(%{enrollments: enrollments}) do
     %{data: for(enrollment <- enrollments, do: data(enrollment))}

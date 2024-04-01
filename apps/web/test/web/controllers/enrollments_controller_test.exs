@@ -6,7 +6,7 @@ defmodule Web.EnrollmentsControllerTest do
   import Web.Auth.Guardian
   import Core.Factory
 
-  alias GoEscuelaLms.Core.Schema.Enrollment
+  alias Core.Schema.Enrollment
 
   setup do
     course = insert!(:course)

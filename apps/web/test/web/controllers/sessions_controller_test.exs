@@ -6,7 +6,7 @@ defmodule Web.SessionsControllerTest do
   import Web.Auth.Guardian
   import Core.Factory
 
-  alias GoEscuelaLms.Core.Schema.User
+  alias Core.Schema.User
 
   describe "create/2" do
     test "invalid credentials", %{conn: conn} do

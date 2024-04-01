@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Schema.Activity do
+defmodule Core.Schema.Activity do
   @moduledoc """
   This module represents the activities schema
   """
@@ -6,9 +6,9 @@ defmodule GoEscuelaLms.Core.Schema.Activity do
   import Ecto.Changeset
 
   alias __MODULE__
-  alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Topic, Question}
-  alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
+  alias Core.Repo, as: Repo
+  alias Core.Schema.{Topic, Question}
+  alias Core.GCP.Manager, as: GCPManager
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
   @foreign_key_type :binary_id

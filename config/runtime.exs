@@ -24,7 +24,7 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
-  config :core, GoEscuelaLms.Core.Repo,
+  config :core, Core.Repo,
     url: System.get_env("DATABASE_URL"),
     show_sensitive_data_on_connection_error: true,
     pool_size: 2

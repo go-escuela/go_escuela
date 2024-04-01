@@ -164,7 +164,7 @@ jobs:
       pull-requests: write
     env:
       MIX_ENV: test
-      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/go_escuela_lms_test
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/go_escuela_test
       SECRET_AUTH_KEY: IpXcM0+N+MH5HUYlY6uR0vUD2lFHcgRA/GI1FNKUBZyR9Fcdr9fxlKoIDZjurHiJ
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

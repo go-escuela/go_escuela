@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Repo.Migrations.AddOptionsAnswersToAnswers do
+defmodule Core.Repo.Migrations.AddOptionsAnswersToAnswers do
   use Ecto.Migration
 
   def change do

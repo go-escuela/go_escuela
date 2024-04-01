@@ -6,7 +6,7 @@ defmodule Web.Users.UsersController do
   import Web.Auth.AuthorizedPlug
   import Web.Plug.CheckRequest
 
-  alias GoEscuelaLms.Core.Schema.User
+  alias Core.Schema.User
 
   plug :organizer_authorized when action in [:create, :index]
   plug :load_user when action in [:update, :delete]

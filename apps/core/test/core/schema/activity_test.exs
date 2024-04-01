@@ -5,9 +5,9 @@ defmodule Core.ActivityTest do
   import Core.Factory
   import Mock
 
-  alias GoEscuelaLms.Core.Repo
-  alias GoEscuelaLms.Core.Schema.Activity
-  alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
+  alias Core.Repo
+  alias Core.Schema.Activity
+  alias Core.GCP.Manager, as: GCPManager
 
   setup do
     course = insert!(:course)

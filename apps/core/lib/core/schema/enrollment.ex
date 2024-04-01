@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Schema.Enrollment do
+defmodule Core.Schema.Enrollment do
   @moduledoc """
   This module represents the enrollment schema
   """
@@ -7,8 +7,8 @@ defmodule GoEscuelaLms.Core.Schema.Enrollment do
   import Ecto.Changeset
 
   alias __MODULE__
-  alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Course, User}
+  alias Core.Repo, as: Repo
+  alias Core.Schema.{Course, User}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
   @foreign_key_type :binary_id

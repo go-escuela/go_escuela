@@ -4,8 +4,8 @@ defmodule Core.QuestionTest do
 
   import Core.Factory
 
-  alias GoEscuelaLms.Core.Repo
-  alias GoEscuelaLms.Core.Schema.Question
+  alias Core.Repo
+  alias Core.Schema.Question
 
   setup do
     course = insert!(:course)

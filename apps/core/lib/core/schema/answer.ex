@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Schema.Answer do
+defmodule Core.Schema.Answer do
   @moduledoc """
   This module represents the answers schema
   """
@@ -6,8 +6,8 @@ defmodule GoEscuelaLms.Core.Schema.Answer do
   import Ecto.Changeset
 
   alias __MODULE__
-  alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Question}
+  alias Core.Repo, as: Repo
+  alias Core.Schema.{Question}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
   @foreign_key_type :binary_id

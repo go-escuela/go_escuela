@@ -4,8 +4,8 @@ defmodule Core.UserTest do
 
   import Core.Factory
 
-  alias GoEscuelaLms.Core.Repo
-  alias GoEscuelaLms.Core.Schema.User
+  alias Core.Repo
+  alias Core.Schema.User
 
   describe "schema" do
     test "metadata" do
