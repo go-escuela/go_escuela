@@ -33,7 +33,7 @@ config :web, :ecto_repos, [
 ]
 
 config :web, Web.Auth.Guardian,
-  issuer: "go_escuela_lms",
+  issuer: "go_escuela_api",
   secret_key: System.get_env("SECRET_AUTH_KEY")
 
 config :guardian, Guardian.DB,
