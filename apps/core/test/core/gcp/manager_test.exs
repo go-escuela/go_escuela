@@ -3,7 +3,7 @@ defmodule Core.ManagerTest do
 
   import Mock
 
-  alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
+  alias Core.GCP.Manager, as: GCPManager
 
   describe "upload/2" do
     test "upload" do

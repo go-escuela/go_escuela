@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Repo.Migrations.AddCourseRequiredToTopic do
+defmodule Core.Repo.Migrations.AddCourseRequiredToTopic do
   use Ecto.Migration
 
   def change do

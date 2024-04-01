@@ -4,7 +4,7 @@ defmodule Web.Auth.SetAccount do
   """
 
   import Plug.Conn
-  alias GoEscuelaLms.Core.Schema.User
+  alias Core.Schema.User
 
   def init(_options) do
   end

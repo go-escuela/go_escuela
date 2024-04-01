@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Schema.InstitutionInfo do
+defmodule Core.Schema.InstitutionInfo do
   @moduledoc """
   This module represents the institution info schema.
   """
@@ -7,7 +7,7 @@ defmodule GoEscuelaLms.Core.Schema.InstitutionInfo do
   import Ecto.Changeset
 
   alias __MODULE__
-  alias GoEscuelaLms.Core.Repo, as: Repo
+  alias Core.Repo, as: Repo
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
 

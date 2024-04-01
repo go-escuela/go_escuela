@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Repo.Migrations.CreateInstitutionInfo do
+defmodule Core.Repo.Migrations.CreateInstitutionInfo do
   use Ecto.Migration
 
   def change do

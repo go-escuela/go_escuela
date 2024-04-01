@@ -6,7 +6,7 @@ defmodule Web.Enrollments.EnrollmentsController do
   import Web.Auth.AuthorizedPlug
   import Web.Plug.CheckRequest
 
-  alias GoEscuelaLms.Core.Schema.{Course, Enrollment}
+  alias Core.Schema.{Course, Enrollment}
 
   plug :organizer_authorized when action in [:create, :delete]
   plug :load_course when action in [:create]

@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Repo.Migrations.AddColumnsToActivities do
+defmodule Core.Repo.Migrations.AddColumnsToActivities do
   use Ecto.Migration
 
   def change do

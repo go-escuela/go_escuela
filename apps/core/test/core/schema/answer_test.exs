@@ -4,7 +4,7 @@ defmodule Core.AnswerTest do
 
   import Core.Factory
 
-  alias GoEscuelaLms.Core.Schema.Answer
+  alias Core.Schema.Answer
 
   setup do
     course = insert!(:course)

@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Schema.Course do
+defmodule Core.Schema.Course do
   @moduledoc """
   This module represents the Course schema.
   """
@@ -9,8 +9,8 @@ defmodule GoEscuelaLms.Core.Schema.Course do
   import Ecto.Query
 
   alias __MODULE__
-  alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Enrollment, Topic}
+  alias Core.Repo, as: Repo
+  alias Core.Schema.{Enrollment, Topic}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
 

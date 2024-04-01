@@ -3,7 +3,7 @@ defmodule Web.Users.UsersJSON do
   Renders users
   """
 
-  alias GoEscuelaLms.Core.Schema.User
+  alias Core.Schema.User
 
   def index(%{users: users}) do
     %{data: for(user <- users, do: data(user))}

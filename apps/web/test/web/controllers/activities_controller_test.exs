@@ -7,7 +7,7 @@ defmodule Web.ActivitiesControllerTest do
   import Core.Factory
   import Mock
 
-  alias GoEscuelaLms.Core.GCP.Manager, as: GCPManager
+  alias Core.GCP.Manager, as: GCPManager
 
   setup do
     course = insert!(:course)

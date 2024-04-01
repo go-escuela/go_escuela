@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Repo do
+defmodule Core.Repo do
   @moduledoc """
   DATABASE repo
   """

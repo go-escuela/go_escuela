@@ -42,7 +42,7 @@ config :web, Web.Endpoint,
 # Enable dev routes for dashboard and mailbox
 config :web, dev_routes: true
 
-config :core, GoEscuelaLms.Core.Repo,
+config :core, Core.Repo,
   url: System.get_env("DATABASE_URL"),
   show_sensitive_data_on_connection_error: true,
   pool_size: 2

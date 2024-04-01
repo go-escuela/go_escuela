@@ -4,8 +4,8 @@ defmodule Core.EnrollmentTest do
 
   import Core.Factory
 
-  alias GoEscuelaLms.Core.Repo
-  alias GoEscuelaLms.Core.Schema.Enrollment
+  alias Core.Repo
+  alias Core.Schema.Enrollment
 
   describe "schema" do
     test "metadata" do

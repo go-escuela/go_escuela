@@ -22,7 +22,7 @@ defmodule Core.DataCase do
     quote location: :keep do
       using do
         quote do
-          alias GoEscuelaLms.Core.Repo
+          alias Core.Repo
 
           import Ecto
           import Ecto.Changeset
@@ -32,10 +32,10 @@ defmodule Core.DataCase do
       end
 
       setup tags do
-        :ok = Sandbox.checkout(GoEscuelaLms.Core.Repo)
+        :ok = Sandbox.checkout(Core.Repo)
 
         unless tags[:async] do
-          Sandbox.mode(GoEscuelaLms.Core.Repo, {:shared, self()})
+          Sandbox.mode(Core.Repo, {:shared, self()})
         end
 
         :ok

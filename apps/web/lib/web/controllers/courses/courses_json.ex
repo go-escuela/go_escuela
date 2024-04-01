@@ -2,7 +2,7 @@ defmodule Web.Courses.CoursesJSON do
   @doc """
   Renders courses
   """
-  alias GoEscuelaLms.Core.Schema.Course
+  alias Core.Schema.Course
 
   def show(%{course: course}) do
     %{

@@ -25,11 +25,11 @@ config :web, Web.Endpoint,
   server: true
 
 config :core, :ecto_repos, [
-  GoEscuelaLms.Core.Repo
+  Core.Repo
 ]
 
 config :web, :ecto_repos, [
-  GoEscuelaLms.Core.Repo
+  Core.Repo
 ]
 
 config :web, Web.Auth.Guardian,
@@ -37,7 +37,7 @@ config :web, Web.Auth.Guardian,
   secret_key: System.get_env("SECRET_AUTH_KEY")
 
 config :guardian, Guardian.DB,
-  repo: GoEscuelaLms.Core.Repo,
+  repo: Core.Repo,
   schema_name: "guardian_tokens",
   sweep_interval: 60
 

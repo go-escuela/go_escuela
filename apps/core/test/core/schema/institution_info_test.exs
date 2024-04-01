@@ -4,7 +4,7 @@ defmodule Core.InstitutionInfoTest do
 
   import Core.Factory
 
-  alias GoEscuelaLms.Core.Schema.InstitutionInfo
+  alias Core.Schema.InstitutionInfo
 
   describe "schema" do
     test "metadata" do

@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.GCP.Manager do
+defmodule Core.GCP.Manager do
   @moduledoc """
   This module GCP uploader
   """

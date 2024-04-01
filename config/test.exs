@@ -7,7 +7,7 @@ config :web, Web.Endpoint,
   secret_key_base: "t2MLXkDJ2CQ91+yN67qU+nuBSqT94xgK9KcYmrUvpmQEoeE5CGlcvf5y33+NucED",
   server: false
 
-config :core, GoEscuelaLms.Core.Repo,
+config :core, Core.Repo,
   url: System.get_env("TEST_DATABASE_URL"),
   pool: Ecto.Adapters.SQL.Sandbox
 

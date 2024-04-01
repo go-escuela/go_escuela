@@ -5,7 +5,7 @@ defmodule Web.Onboarding.InstitutionInfoController do
 
   import Web.Auth.AuthorizedPlug
 
-  alias GoEscuelaLms.Core.Schema.InstitutionInfo
+  alias Core.Schema.InstitutionInfo
 
   plug :organizer_authorized when action in [:show]
 

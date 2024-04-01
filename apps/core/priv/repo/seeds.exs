@@ -1,5 +1,5 @@
-alias GoEscuelaLms.Core.Schema.{User, InstitutionInfo}
-alias GoEscuelaLms.Core.Repo, as: Repo
+alias Core.Schema.{User, InstitutionInfo}
+alias Core.Repo, as: Repo
 
 # create Admin
 case Repo.get_by(User, role: "organizer") do

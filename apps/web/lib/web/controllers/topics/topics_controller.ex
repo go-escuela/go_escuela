@@ -6,7 +6,7 @@ defmodule Web.Topics.TopicsController do
   import Web.Auth.AuthorizedPlug
   import Web.Plug.CheckRequest
 
-  alias GoEscuelaLms.Core.Schema.Topic
+  alias Core.Schema.Topic
 
   plug :permit_authorized when action in [:create, :update, :delete]
   plug :load_course when action in [:create]

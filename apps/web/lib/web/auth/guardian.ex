@@ -3,7 +3,7 @@ defmodule Web.Auth.Guardian do
   module for check user credentials using Guardian dep
   """
   use Guardian, otp_app: :web
-  alias GoEscuelaLms.Core.Schema.User
+  alias Core.Schema.User
 
   def subject_for_token(%{uuid: uuid}, _claims) do
     sub = to_string(uuid)

@@ -6,7 +6,7 @@ defmodule Web.TopicsControllerTest do
   import Web.Auth.Guardian
   import Core.Factory
 
-  alias GoEscuelaLms.Core.Schema.Topic
+  alias Core.Schema.Topic
 
   setup do
     course = insert!(:course)

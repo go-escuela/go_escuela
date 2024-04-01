@@ -3,7 +3,7 @@ defmodule Web.Users.ProfileController do
 
   action_fallback Web.FallbackController
 
-  alias GoEscuelaLms.Core.Schema.User
+  alias Core.Schema.User
 
   @update_params %{
     full_name: :string,

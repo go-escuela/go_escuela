@@ -3,8 +3,8 @@ defmodule Web.Plug.CheckRequest do
   This module plug check request and load resource
   """
   import Plug.Conn
-  alias GoEscuelaLms.Core.Schema.Enrollment
-  alias GoEscuelaLms.Core.Schema.{Course, Enrollment, Topic, User}
+  alias Core.Schema.Enrollment
+  alias Core.Schema.{Course, Enrollment, Topic, User}
 
   def load_user(conn, _) do
     id = conn.params["id"] || conn.params["users_id"] || conn.params["user_id"]

@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Repo.Migrations.RemoveQuizzes do
+defmodule Core.Repo.Migrations.RemoveQuizzes do
   use Ecto.Migration
 
   def change do

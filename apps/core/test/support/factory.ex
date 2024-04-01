@@ -3,9 +3,9 @@ defmodule Core.Factory do
   Schema data factories
   """
 
-  alias GoEscuelaLms.Core.Repo
+  alias Core.Repo
 
-  alias GoEscuelaLms.Core.Schema.{
+  alias Core.Schema.{
     Activity,
     Answer,
     Course,

@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Schema.User do
+defmodule Core.Schema.User do
   @moduledoc """
   This module represents  User schema
   """
@@ -8,8 +8,8 @@ defmodule GoEscuelaLms.Core.Schema.User do
 
   import Ecto.Query, warn: false
   alias __MODULE__
-  alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Enrollment}
+  alias Core.Repo, as: Repo
+  alias Core.Schema.{Enrollment}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
   @foreign_key_type :binary_id

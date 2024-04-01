@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Schema.Topic do
+defmodule Core.Schema.Topic do
   @moduledoc """
   This module represents the topic schema
   """
@@ -6,8 +6,8 @@ defmodule GoEscuelaLms.Core.Schema.Topic do
   import Ecto.Changeset
 
   alias __MODULE__
-  alias GoEscuelaLms.Core.Repo, as: Repo
-  alias GoEscuelaLms.Core.Schema.{Course, Activity}
+  alias Core.Repo, as: Repo
+  alias Core.Schema.{Course, Activity}
 
   @primary_key {:uuid, Ecto.UUID, autogenerate: true}
   @foreign_key_type :binary_id

@@ -19,7 +19,7 @@ defmodule Core.Application do
 
   defp children(:common) do
     [
-      GoEscuelaLms.Core.Repo
+      Core.Repo
     ]
   end
 

@@ -1,4 +1,4 @@
-defmodule GoEscuelaLms.Core.Repo.Migrations.AddReferencesRequired do
+defmodule Core.Repo.Migrations.AddReferencesRequired do
   use Ecto.Migration
 
   def change do

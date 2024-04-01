@@ -3,7 +3,7 @@ defmodule Web.Topics.TopicsJSON do
   Renders topics
   """
 
-  alias GoEscuelaLms.Core.Schema.Topic
+  alias Core.Schema.Topic
 
   def create(%{topic: topic}) do
     %{data: data(topic)}

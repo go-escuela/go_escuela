@@ -3,7 +3,7 @@ defmodule Web.Auth.AuthorizedPlug do
   This module plug authorized
   """
   import Plug.Conn
-  alias GoEscuelaLms.Core.Schema.User
+  alias Core.Schema.User
 
   def organizer_authorized(conn, _) do
     case conn.assigns.account |> User.organizer?() do
